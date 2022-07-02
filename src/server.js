@@ -2,7 +2,7 @@ const express = require("express");
 const todosRoutes = require("./todos.routes");
 const pg = require('pg');
 require('dotenv').config();
-const connectionString =" postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}";
+const connectionString ="postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}";
 const pool = new pg.Pool({
   connectionString: isProduction ? process.env.DATABASE_URL : connectionString,
   ssl: isProduction,
@@ -21,4 +21,5 @@ app.get("/user", (req, res) => {
     return res.json("up");
 
 });
-app.listen(3333, ()=> console.log("Server up in 3333"));
+const port = process.env.PORT || 8000;
+app.listen(port, ()=> console.log("Server up in 3333"));
