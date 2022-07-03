@@ -23,6 +23,10 @@ todosRoutes.post("/CreateUser", async (request, response)=>{
 
 });
 
+app.get("/", (req, res) => {
+    return res.json("hello word");
+
+})
 todosRoutes.get("/GetUser",  async (request, response)=>{
     const lerUser = await prisma.user.findMany({})
     if(response.status= 503){
