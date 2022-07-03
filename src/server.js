@@ -16,7 +16,10 @@ const app = express();
 
 app.use(express.json());
 app.use(todosRoutes);
+app.get("/", (req, res) => {
+    return res.json("hello word");
 
+});
 app.get("/user", (req, res) => {
     return res.json("up");
 
