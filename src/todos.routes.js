@@ -38,11 +38,9 @@ const  {id} = request.params
         },
         select:{
             name: true
-        }
-
+        },
+  
         
-        
-
     })
     
     return response.status(200).json(lerUser);
