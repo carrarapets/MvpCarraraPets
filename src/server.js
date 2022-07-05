@@ -21,7 +21,7 @@ app.get("/", (req, res) => {
     return res.json("hello word");
 
 });
-app.get("/user", (req, res) => {
+app.get("/usere", (req, res) => {
     return res.json("up");
 
 });

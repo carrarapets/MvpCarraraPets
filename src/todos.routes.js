@@ -9,7 +9,7 @@ const prisma = new PrismaClient();
 
 
 
-todosRoutes.post("/CreateUser", async (request, response)=>{
+todosRoutes.post("/createuser", async (request, response)=>{
     const{name}= request.body;
   const todo = await  prisma.user.create({
         data:{
@@ -24,16 +24,22 @@ todosRoutes.post("/CreateUser", async (request, response)=>{
 });
 
 
-todosRoutes.get("/GetUser",  async (request, response)=>{
+todosRoutes.get("/getuser",  async (request, response)=>{
     const lerUser = await prisma.user.findMany({})
     
     return response.status(200).json(lerUser);
 });
-todosRoutes.get("/GetUser/:id",  async (request, response)=>{
-const {id} = request.params
+todosRoutes.get("/user/:id",  async (request, response)=>{
+const  {id} = request.params
     const lerUser = await prisma.user.findUnique({
         where:{
             id:id,
+            
+        },
+        select:{
+            name: true
+        }
+
         }
         
 
