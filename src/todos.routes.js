@@ -14,6 +14,10 @@ todosRoutes.post("/CreateUser", async (request, response)=>{
   const todo = await  prisma.user.create({
         data:{
             name,
+            raca, 
+            peso,
+            comportamento,
+            cor,
             status: false
         },
 
