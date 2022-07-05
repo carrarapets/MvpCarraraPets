@@ -40,7 +40,7 @@ const  {id} = request.params
             name: true
         }
 
-        }
+        
         
 
     })
