@@ -33,6 +33,18 @@ todosRoutes.get("/GetUser",  async (request, response)=>{
     
     return response.status(200).json(lerUser);
 });
+todosRoutes.get("/GetUser/:id",  async (request, response)=>{
+const {id} = request.params
+    const lerUser = await prisma.user.findUnique({
+        where:{
+            id:id,
+        }
+        
+
+    })
+    
+    return response.status(200).json(lerUser);
+});
 
 
 
