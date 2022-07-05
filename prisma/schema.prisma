@@ -13,9 +13,5 @@ datasource db {
 model user{
   id Int @id @default(autoincrement())
   name String
-  raca String
-  peso String
-  comportamento String
-  cor String
   status Boolean
 }
