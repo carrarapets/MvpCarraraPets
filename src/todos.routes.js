@@ -1,7 +1,7 @@
 
 const { response } = require("express");
 const express = require("express")
-const allTodos = [{nome: "aaaa", status: false}];
+
 const todosRoutes = express.Router();
 const {PrismaClient} = require("@prisma/client");
 
@@ -10,7 +10,7 @@ const prisma = new PrismaClient();
 
 
 todosRoutes.post("/CreateUser", async (request, response)=>{
-    const{name}= request.body;
+    const{name,raca,peso,comportamento,cor}= request.body;
   const todo = await  prisma.user.create({
         data:{
             name,
