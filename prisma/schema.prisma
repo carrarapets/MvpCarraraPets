@@ -1,6 +1,9 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,8 +13,90 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model user{
-  id Int @id @default(autoincrement())
-  name String
-  status Boolean
+model User {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  email     String   @unique
+  nome      String?
+  sobrenome String?
+  cpf       String   @unique
+  rg        String   @unique
+  valido    Boolean
+  foto      String?
+  celular   String?
+  password  String?
+  pets      Pet[]
+  pedidos   Pedido[]
+}
+
+model Pet {
+  id            Int     @id @default(autoincrement())
+  nome          String?
+  peso          Float
+  comportamento String?
+  foto          String?
+  sexo          String?
+  raca          String?
+  especia       String?
+  user          User    @relation(fields: [userId], references: [id])
+  userId        Int     @unique
+}
+
+model Viagem {
+  id          Int      @id @default(autoincrement())
+  chat        String?
+  update_date DateTime @default(now())
+  pontuacao   String?
+  pedido      Pedido   @relation(fields: [pedidoId], references: [id])
+  pedidoId    Int      @unique
+}
+
+model Pedido {
+  id                Int       @id @default(autoincrement())
+  create_date       DateTime  @default(now())
+  preco             Float
+  final             DateTime
+  inicio            DateTime
+  cancelpass        Boolean
+  cancelmoto        Boolean
+  destino           Float
+  localizacao_atual Float
+  user              User      @relation(fields: [userId], references: [id])
+  userId            Int
+  motorista         Motorista @relation(fields: [motoristaId], references: [id])
+  motoristaId       Int       @unique
+  viagem            Viagem[]
+}
+
+model Motorista {
+  id                Int       @id @default(autoincrement())
+  create_date       DateTime  @default(now())
+  CNH               String?   @unique
+  ant_criminal      String?
+  avaliacao         String?
+  validade_cnh      DateTime  @unique
+  detalhes_corridas String?
+  pedidos           Pedido[]
+  carro             Carro[]
+  convite           Convite[]
+}
+
+model Convite {
+  id          Int       @id @default(autoincrement())
+  create_date DateTime  @default(now())
+  email       String?
+  ativo       Boolean
+  motorista   Motorista @relation(fields: [motoristaId], references: [id])
+  motoristaId Int       @unique
+}
+
+model Carro {
+  id          Int       @id @default(autoincrement())
+  placa       String?   @unique
+  modelo      String?
+  marca       String?   @unique
+  renavam     String?   @unique
+  cor         String?
+  motorista   Motorista @relation(fields: [motoristaId], references: [id])
+  motoristaId Int       @unique
 }

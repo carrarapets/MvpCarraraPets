@@ -26,4 +26,4 @@ app.get("/usere", (req, res) => {
 
 });
 const port = process.env.PORT || 8000;
-app.listen(port, ()=> console.log("Server up in 3333"));
+app.listen(port, ()=> console.log("Server up in "+port));
