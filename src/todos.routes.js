@@ -33,7 +33,10 @@ todosRoutes.get("/user/:id",  async (request, response)=>{
 const  {id} = request.params;
     const lerUser = await prisma.user.findUnique({
         where:{
-            id: Number(id)
+            if (condition) {
+                id: Number(id) 
+            }
+            
             
         },
     })
