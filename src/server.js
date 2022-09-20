@@ -1,5 +1,6 @@
 const express = require("express");
 const todosRoutes = require("./todos.routes");
+const cors = require("cors")
 const pg = require('pg');
 require('dotenv').config();
 const isProduction = process.env.NODE_ENV ==='production';
