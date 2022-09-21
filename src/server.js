@@ -1,4 +1,6 @@
 const express = require("express");
+import express,{ Request, Response, NextFunction } from "express";
+import "express-async-errors";
 const todosRoutes = require("./todos.routes");
 const cors = require("cors")
 const pg = require('pg');

@@ -72,7 +72,14 @@ model Motorista {
   id                Int       @id @default(autoincrement())
   create_date       DateTime  @default(now())
   CNH               String?   @unique
+  email             String    @unique
+  nome              String?
+  password          String?
+  foto              String?
+  valido            Boolean
+  sobrenome         String?
   ant_criminal      String?
+  celular           String?
   avaliacao         String?
   validade_cnh      DateTime  @unique
   detalhes_corridas String?
