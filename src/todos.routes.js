@@ -25,10 +25,39 @@ todosRoutes.post("/createuser", async(request, response) =>{
             valido: true,
             rg, 
             foto
-            
-
-        }
+        },   
     });
+        
+    const emailValidate = RuleValidation.validationEmail(data.email);
+    if(emailValidate == false){
+        throw new Error("Email Inválido!")
+        }
+        
+    const emailAlready = RuleValidation.emailAlreadyExist(data.email);
+        if (emailAlready == false) {
+        throw new Error("Email já cadastrado!")
+        }
+        
+    const celularValidate = RuleValidation.validationPhone(data.celular);
+    if(celularValidate == false){
+        throw new Error("Celular Inválido!")
+        }
+
+    const celularAlready = RuleValidation.phoneAlreadyExist(data.celular);
+        if (celularAlready == false) {
+        throw new Error("Celular já cadastrado!")
+        }
+
+    const documentValidate = RuleValidation.validationPhone(data.cpf);
+    if(documentValidate == false){
+        throw new Error("CPF Inválido!")
+        }
+
+    const documentAlready = RuleValidation.phoneAlreadyExist(data.celular);
+        if (documentAlready == false) {
+        throw new Error("CPF já cadastrado!")
+        }
+
     return response.status(201).json(criaUsuario);
         
     } catch (error) {
@@ -108,6 +137,37 @@ todosRoutes.post("/updateuser/:id", async(request, response)=>{
             
         }
     });
+
+    const emailValidate = RuleValidation.validationEmail(data.email);
+    if(emailValidate == false){
+        throw new Error("Email Inválido!")
+        }
+        
+    const emailAlready = RuleValidation.emailAlreadyExist(data.email);
+        if (emailAlready == false) {
+        throw new Error("Email já cadastrado!")
+        }
+        
+    const celularValidate = RuleValidation.validationPhone(data.celular);
+    if(celularValidate == false){
+        throw new Error("Celular Inválido!")
+        }
+
+    const celularAlready = RuleValidation.phoneAlreadyExist(data.celular);
+        if (celularAlready == false) {
+        throw new Error("Celular já cadastrado!")
+        }
+
+    const documentValidate = RuleValidation.validationPhone(data.cpf);
+    if(documentValidate == false){
+        throw new Error("CPF Inválido!")
+        }
+
+    const documentAlready = RuleValidation.phoneAlreadyExist(data.celular);
+        if (documentAlready == false) {
+        throw new Error("CPF já cadastrado!")
+        }
+
     return response.status(200).json(atualizaUsuario);
     } catch (error) {
         return response.status(200).json({message: error.message});
