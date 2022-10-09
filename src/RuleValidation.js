@@ -22,8 +22,9 @@ function validationEmail(email) {
         select: {
             id: true,
         },
-    })
-      return {id : getUser};
+    });
+      console.log(getUser);
+      return getUser;
 }
 
 function validationPhone(celular) {
