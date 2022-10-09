@@ -15,9 +15,12 @@ function validationEmail(email) {
 }
 
   function emailAlreadyExist(email) { 
-    const getUser = prisma.user.id.findUnique({
+    const getUser = prisma.user.findUnique({
         where: {
-            email: String(email)
+            email: String(email),
+        },
+        select: {
+            id: true,
         },
     })
     if (getUser === null) {
