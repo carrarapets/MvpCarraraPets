@@ -20,10 +20,10 @@ function validationEmail(email) {
             email: String(email)
         },
     })
-    if (getUser != null) {
-        return false;
-    } else {
+    if (getUser === null) {
         return true;
+    } else {
+        return false;
     }
 }
 
