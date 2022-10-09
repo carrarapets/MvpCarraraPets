@@ -30,37 +30,27 @@ todosRoutes.post("/createuser", async(request, response) =>{
     });
         
     const emailValidate = RuleValidation.validationEmail(email);
-    if(emailValidate == false){
-        throw new Error("Email Inválido!")
-        }
-        
-    const emailAlready = RuleValidation.emailAlreadyExist(email);
-        if (emailAlready == false) {
-        throw new Error("Email já cadastrado!")
-        }
-        
+//  const emailAlready = RuleValidation.emailAlreadyExist(email);
     const celularValidate = RuleValidation.validationPhone(celular);
-    if(celularValidate == false){
-        throw new Error("Celular Inválido!")
-        }
-
-    const celularAlready = RuleValidation.phoneAlreadyExist(celular);
-        if (celularAlready == false) {
-        throw new Error("Celular já cadastrado!")
-        }
-
-    const documentValidate = RuleValidation.validationPhone(cpf);
-    if(documentValidate == false){
-        throw new Error("CPF Inválido!")
-        }
-
-    const documentAlready = RuleValidation.phoneAlreadyExist(celular);
-        if (documentAlready == false) {
-        throw new Error("CPF já cadastrado!")
-        }
-
-    return response.status(201).json(criaUsuario);
+//  const celularAlready = RuleValidation.phoneAlreadyExist(celular);
+    const documentValidate = RuleValidation.validationPhone(cpf);      
+//  const documentAlready = RuleValidation.phoneAlreadyExist(celular);    
         
+        if (emailValidate == false) {
+            throw new Error("Email Inválido!")
+            //        }
+            //        else if (emailAlready == false) {
+            //          throw new Error("Email já cadastrado!")
+        } else if (celularValidate == false) {
+            throw new Error("Celular Inválido!")
+            //            } else if (celularAlready == false) {
+            //                  throw new Error("Celular já cadastrado!")
+        } else if (documentValidate == false) {
+            throw new Error("CPF Inválido!")
+            //                                } else if (documentAlready == false) {
+            //                                throw new Error("CPF já cadastrado!")
+        } else { return response.status(201).json(criaUsuario); }
+
     } catch (error) {
         return response.status(500).json({message: error.message});
     }
