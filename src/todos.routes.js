@@ -33,7 +33,7 @@ todosRoutes.post("/createuser", async(request, response) =>{
 //  const emailAlready = RuleValidation.emailAlreadyExist(email);
     const celularValidate = RuleValidation.validationPhone(celular);
 //  const celularAlready = RuleValidation.phoneAlreadyExist(celular);
-    const documentValidate = RuleValidation.validationPhone(cpf);      
+    const documentValidate = RuleValidation.documentValidate(cpf);      
 //  const documentAlready = RuleValidation.phoneAlreadyExist(celular);    
         
         if (emailValidate === false) {
