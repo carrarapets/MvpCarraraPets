@@ -63,6 +63,7 @@ todosRoutes.post("/createuser", async (request, response) => {
      return response.status(201).json(criaUsuario); }
 
     } catch (error) {
+        console.log(emailAlready);
         return response.status(500).json({message: error.message});
     }
     
