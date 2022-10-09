@@ -23,7 +23,6 @@ function validationEmail(email) {
             id: true,
         },
     });
-      console.log(getUser);
       return getUser;
 }
 
