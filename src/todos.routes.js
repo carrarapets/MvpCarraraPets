@@ -29,9 +29,9 @@ todosRoutes.post("/createuser", async (request, response) => {
         if (emailValidate === false) {
             throw new Error("Email Inválido!")
         } else if (emailAlready != null) {
-            throw new Error("Email já cadastrado!")
+            throw new Error("Email já cadastrado!", console.log(emailAlready))
         } else if (celularValidate === false) {
-            throw new Error("Celular Inválido!", console.log(emailAlready))
+            throw new Error("Celular Inválido!")
             //            } else if (celularAlready == false) {
             //                  throw new Error("Celular já cadastrado!")
         } else if (documentCpfValidate === false) {
