@@ -3,8 +3,6 @@ const emailValidator = require('email-validator');
 const phoneValidator = require('validate-phone-number-node-js');
 const documentValidator = require('cpf-cnpj-validator');
 const { prisma } = require('@prisma/client');
-const { isNumber } = require('util');
-const { updateTypeLiteralNode } = require('typescript');
 
 
 
