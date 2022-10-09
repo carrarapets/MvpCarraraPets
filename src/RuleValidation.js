@@ -15,22 +15,18 @@ function validationEmail(email) {
         }
 }
 
-/*function emailAlreadyExist(emailAlready) { 
+    function emailAlreadyExist(emailAlready) { 
     const getUser =  prisma.user.findUnique({
         where: {
-            email: emailAlready,
-        },
-        select: {
-            id: true,
-            nome: true,
+            emailAlready: String(emailAlready)
         },
     })
-    if (getUser == null) {
+    if (getUser === null) {
         return true;
     } else {
         return false;
     }
-}*/
+}
 
 function validationPhone(celular) {
     if (isNaN(celular) === true) return false;
@@ -126,7 +122,7 @@ function validationRgDocument(rg) {
 
 
 exports.validationEmail = validationEmail;
-//exports.emailAlreadyExist = emailAlreadyExist;
+exports.emailAlreadyExist = emailAlreadyExist;
 exports.validationPhone = validationPhone;
 //exports.phoneAlreadyExist = phoneAlreadyExist;
 exports.validationCpfDocument = validationCpfDocument;
