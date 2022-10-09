@@ -70,7 +70,7 @@ function validationPhone(celular) {
     }
 }*/
 
-function validationDocument(cpf) {
+function validationCpfDocument(cpf) {
     var Soma;
     var Resto;
     Soma = 0;
@@ -91,7 +91,7 @@ function validationDocument(cpf) {
     return true;
 }
 
-/*function documentAlreadyExist(cpfAlready) { 
+/*function CpfAlreadyExist(cpfAlready) { 
     const getUser =  prisma.user.findUnique({
         where: {
             cpf: cpfAlready,
@@ -108,6 +108,14 @@ function validationDocument(cpf) {
     }
 }*/
 
+function validationRgDocument(rg) {
+    return true;
+}
+
+/*function RgAlreadyExist() { 
+
+}*/
+
 
 
 
@@ -116,5 +124,7 @@ exports.validationEmail = validationEmail;
 //exports.emailAlreadyExist = emailAlreadyExist;
 exports.validationPhone = validationPhone;
 //exports.phoneAlreadyExist = phoneAlreadyExist;
-exports.validationDocument = validationDocument;
-//exports.documentAlreadyExist = documentAlreadyExist;
+exports.validationCpfDocument = validationCpfDocument;
+//exports.CpfAlreadyExist = CpfAlreadyExist;
+exports.validationRgDocument = validationRgDocument;
+//exports.RgAlreadyExist = RgAlreadyExist;
