@@ -12,9 +12,11 @@ const prisma = new PrismaClient();
 
 
 
-todosRoutes.post("/createuser", async(request, response) =>{
+todosRoutes.post("/createuser", async (request, response) => {
+    
     try {
-
+    const { nome, sobrenome, cpf, celular, email, password, rg, foto } = request.body;
+        
     const emailValidate = RuleValidation.validationEmail(email);
 //  const emailAlready = RuleValidation.emailAlreadyExist(email);
     const celularValidate = RuleValidation.validationPhone(celular);
@@ -44,7 +46,7 @@ todosRoutes.post("/createuser", async(request, response) =>{
         } else {
 
         
-        const{nome, sobrenome, cpf, celular, email, password, rg, foto}=request.body;
+        
     const criaUsuario = await prisma.user.create({
         data:{
             nome,
