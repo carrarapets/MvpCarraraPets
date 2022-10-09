@@ -36,20 +36,20 @@ todosRoutes.post("/createuser", async(request, response) =>{
     const documentValidate = RuleValidation.validationPhone(cpf);      
 //  const documentAlready = RuleValidation.phoneAlreadyExist(celular);    
         
-        if (emailValidate == false) {
+        if (emailValidate === false) {
             throw new Error("Email Inválido!")
             //        }
             //        else if (emailAlready == false) {
             //          throw new Error("Email já cadastrado!")
-        } else if (celularValidate == false) {
+        } else if (celularValidate === false) {
             throw new Error("Celular Inválido!")
             //            } else if (celularAlready == false) {
             //                  throw new Error("Celular já cadastrado!")
-        } else if (documentValidate == false) {
+        } else if (documentValidate === false) {
             throw new Error("CPF Inválido!")
             //                                } else if (documentAlready == false) {
             //                                throw new Error("CPF já cadastrado!")
-        } else { return response.status(201).json(criaUsuario); }
+        } else { return response.status(201).json(criaUsuario,emailValidate,celularValidate,documentValidate); }
 
     } catch (error) {
         return response.status(500).json({message: error.message});
