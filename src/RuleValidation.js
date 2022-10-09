@@ -1,3 +1,4 @@
+
 const emailValidator = require('email-validator');
 const phoneValidator = require('validate-phone-number-node-js');
 const documentValidator = require('cpf-cnpj-validator');
@@ -14,7 +15,7 @@ function validationEmail(email) {
         }
 }
 
-function emailAlreadyExist(emailAlready) { 
+/*function emailAlreadyExist(emailAlready) { 
     const getUser =  prisma.user.findUnique({
         where: {
             email: emailAlready,
@@ -29,7 +30,7 @@ function emailAlreadyExist(emailAlready) {
     } else {
         return false;
     }
-}
+}*/
 
 function validationPhone(celular) {
     if (phoneValidator.validate(celular)) {
@@ -39,7 +40,7 @@ function validationPhone(celular) {
         }
 }
 
-function phoneAlreadyExist(celularAlready) { 
+/*function phoneAlreadyExist(celularAlready) { 
     const getUser =  prisma.user.findUnique({
         where: {
             celular: celularAlready,
@@ -54,17 +55,17 @@ function phoneAlreadyExist(celularAlready) {
     } else {
         return false;
     }
-}
+}*/
 
 function validationDocument(cpf) {
-    if (documentValidator.validate(cpf)) {
+    if (documentValidator.validator(cpf)) {
         return true;
     } else { 
         return false;
         }
 }
 
-function documentAlreadyExist(cpfAlready) { 
+/*function documentAlreadyExist(cpfAlready) { 
     const getUser =  prisma.user.findUnique({
         where: {
             cpf: cpfAlready,
@@ -79,7 +80,7 @@ function documentAlreadyExist(cpfAlready) {
     } else {
         return false;
     }
-}
+}*/
 
 
 
@@ -87,8 +88,8 @@ function documentAlreadyExist(cpfAlready) {
 
 
 exports.validationEmail = validationEmail;
-exports.emailAlreadyExist = emailAlreadyExist;
+//exports.emailAlreadyExist = emailAlreadyExist;
 exports.validationPhone = validationPhone;
-exports.phoneAlreadyExist = phoneAlreadyExist;
+//exports.phoneAlreadyExist = phoneAlreadyExist;
 exports.validationDocument = validationDocument;
-exports.documentAlreadyExist = documentAlreadyExist;
+//exports.documentAlreadyExist = documentAlreadyExist;
