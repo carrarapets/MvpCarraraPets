@@ -10,6 +10,7 @@ const { equal } = require("assert");
 
 const prisma = new PrismaClient();
 
+exports.PrismaClient = PrismaClient;
 
 
 todosRoutes.post("/createuser", async (request, response) => {
