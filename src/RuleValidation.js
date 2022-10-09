@@ -15,15 +15,15 @@ function validationEmail(email) {
 }
 
     function emailAlreadyExist(email) { 
-    const getUser = prisma.user.findFirst({
+    const getUser = prisma.user.findMany({
         where: {
             email: String(email)
         },
     })
-    if (getUser === null) {
-        return true;
-    } else {
+    if (getUser != null) {
         return false;
+    } else {
+        return true;
     }
 }
 
