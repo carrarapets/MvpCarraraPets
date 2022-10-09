@@ -10,7 +10,6 @@ const { equal } = require("assert");
 
 const prisma = new PrismaClient();
 
-exports.PrismaClient = PrismaClient;
 
 
 todosRoutes.post("/createuser", async (request, response) => {
@@ -30,7 +29,7 @@ todosRoutes.post("/createuser", async (request, response) => {
         if (emailValidate === false) {
             throw new Error("Email Inválido!")
                     }
-                    else if (emailAlready == false) {
+                    else if (emailAlready === false) {
                       throw new Error("Email já cadastrado!")
         } else if (celularValidate === false) {
             throw new Error("Celular Inválido!")
