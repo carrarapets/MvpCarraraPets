@@ -110,7 +110,7 @@ function validationCpfDocument(cpf) {
 }*/
 
 function validationRgDocument(rg) {
-    if (rg.length === 9 || isNaN(rg) === false){
+    if (rg.length === 9 && isNaN(rg) === false){
         return true;
     } else {
         return false;
