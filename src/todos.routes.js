@@ -14,21 +14,7 @@ const prisma = new PrismaClient();
 
 todosRoutes.post("/createuser", async(request, response) =>{
     try {
-        const{nome, sobrenome, cpf, celular, email, password, rg, foto}=request.body;
-    const criaUsuario = await prisma.user.create({
-        data:{
-            nome,
-            sobrenome,
-            cpf,
-            celular,
-            email,
-            password,
-            valido: true,
-            rg, 
-            foto
-        },   
-    });
-        
+
     const emailValidate = RuleValidation.validationEmail(email);
 //  const emailAlready = RuleValidation.emailAlreadyExist(email);
     const celularValidate = RuleValidation.validationPhone(celular);
@@ -55,7 +41,25 @@ todosRoutes.post("/createuser", async(request, response) =>{
             throw new Error("RG Inválido!")
             //                                } else if (documentRgAlready == false) {
             //                                throw new Error("CPF já cadastrado!")
-        } else { return response.status(201).json(criaUsuario); }
+        } else {
+
+        
+        const{nome, sobrenome, cpf, celular, email, password, rg, foto}=request.body;
+    const criaUsuario = await prisma.user.create({
+        data:{
+            nome,
+            sobrenome,
+            cpf,
+            celular,
+            email,
+            password,
+            valido: true,
+            rg, 
+            foto
+        },   
+    });
+        
+     return response.status(201).json(criaUsuario); }
 
     } catch (error) {
         return response.status(500).json({message: error.message});
