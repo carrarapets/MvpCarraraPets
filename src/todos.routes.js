@@ -1,7 +1,8 @@
-const RuleValidation = require('RuleValidation');
+
 const { response } = require("express");
 
 const express = require("express")
+const RuleValidation = require('RuleValidation')
 
 const todosRoutes = express.Router();
 const {PrismaClient} = require("@prisma/client");
