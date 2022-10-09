@@ -18,7 +18,7 @@ todosRoutes.post("/createuser", async (request, response) => {
     const { nome, sobrenome, cpf, celular, email, password, rg, foto } = request.body;
         
     const emailValidate = RuleValidation.validationEmail(email);
-//  const emailAlready = RuleValidation.emailAlreadyExist(email);
+    const emailAlready = RuleValidation.emailAlreadyExist(email);
     const celularValidate = RuleValidation.validationPhone(celular);
 //  const celularAlready = RuleValidation.phoneAlreadyExist(celular);
     const documentCpfValidate = RuleValidation.validationCpfDocument(cpf);      
@@ -127,7 +127,7 @@ todosRoutes.post("/updateuser/:id", async(request, response)=>{
         const { id } = request.params;
         
         const emailValidate = RuleValidation.validationEmail(email);
-        //  const emailAlready = RuleValidation.emailAlreadyExist(email);
+        const emailAlready = RuleValidation.emailAlreadyExist(email);
         const celularValidate = RuleValidation.validationPhone(celular);
         //  const celularAlready = RuleValidation.phoneAlreadyExist(celular);
         const documentCpfValidate = RuleValidation.validationCpfDocument(cpf);
@@ -137,9 +137,9 @@ todosRoutes.post("/updateuser/:id", async(request, response)=>{
         
         if (emailValidate === false) {
             throw new Error("Email Inválido!")
-            //        }
-            //        else if (emailAlready == false) {
-            //          throw new Error("Email já cadastrado!")
+                   }
+                   else if (emailAlready == false) {
+                      throw new Error("Email já cadastrado!")
         } else if (celularValidate === false) {
             throw new Error("Celular Inválido!")
             //            } else if (celularAlready == false) {
