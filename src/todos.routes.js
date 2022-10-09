@@ -31,7 +31,7 @@ todosRoutes.post("/createuser", async (request, response) => {
         } else if (emailAlready != null) {
             throw new Error("Email já cadastrado!")
         } else if (celularValidate === false) {
-            throw new Error("Celular Inválido!")
+            throw new Error("Celular Inválido!", console.log(emailAlready))
             //            } else if (celularAlready == false) {
             //                  throw new Error("Celular já cadastrado!")
         } else if (documentCpfValidate === false) {
@@ -63,7 +63,6 @@ todosRoutes.post("/createuser", async (request, response) => {
      return response.status(201).json(criaUsuario); }
 
     } catch (error) {
-        console.log(emailAlready);
         return response.status(500).json({message: error.message});
     }
     
