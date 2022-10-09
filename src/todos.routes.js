@@ -1,4 +1,4 @@
-
+const RuleValidation = require(RuleValidation);
 const { response } = require("express");
 
 const express = require("express")
