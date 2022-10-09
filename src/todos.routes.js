@@ -72,24 +72,25 @@ todosRoutes.post("/createuser", async (request, response) => {
 todosRoutes.get("/loginuser", async(request, response)=>{
     try {
         const {email, password}= request.body;
-    
+
         const loginUser =  await prisma.user.findFirst({
             where:{
-                email: email,
-                password: password
+                email: String(email),
+                password: String(password)
 
             }
         })
-        
+
     if(!loginUser){
         throw new Error("Usuário/Senha incorreto")
+
     }
     return response.status(200).json("login efetuado com sucesso");
-        
+
     } catch (error) {
         return response.status(500).json({message: error.message});
     }
-    
+
 });
 
 
