@@ -109,7 +109,11 @@ function validationCpfDocument(cpf) {
 }*/
 
 function validationRgDocument(rg) {
-    return true;
+    if (length(rg) === 9 || !isNaN(rg)){
+        return true;
+    } else {
+        return false;
+    }
 }
 
 /*function RgAlreadyExist() { 
