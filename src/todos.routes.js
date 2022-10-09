@@ -85,7 +85,7 @@ todosRoutes.get("/loginuser", async(request, response)=>{
         throw new Error("Usuário/Senha incorreto")
 
     }
-    const comparaSenha =  equal(user.password, password);
+    const comparaSenha =  equal(prisma.user.password, password);
     if (!comparaSenha) {
         throw new Error("Usuário/Senha incorreto")
         
