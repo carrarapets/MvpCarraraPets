@@ -3,6 +3,9 @@ const phoneValidator = require('validate-phone-number-node-js');
 const documentValidator = require('cpf-cnpj-validator');
 const { prisma } = require('@prisma/client');
 
+
+
+
 function validationEmail(email) {
     if (emailValidator.validate(email)) {
         return true;
@@ -77,3 +80,15 @@ function documentAlreadyExist(cpfAlready) {
         return false;
     }
 }
+
+
+
+
+
+
+exports.validationEmail = validationEmail;
+exports.emailAlreadyExist = emailAlreadyExist;
+exports.validationPhone = validationPhone;
+exports.phoneAlreadyExist = phoneAlreadyExist;
+exports.validationDocument = validationDocument;
+exports.documentAlreadyExist = documentAlreadyExist;
