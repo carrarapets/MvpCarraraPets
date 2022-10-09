@@ -30,7 +30,7 @@ todosRoutes.post("/createuser", async (request, response) => {
             throw new Error("Email Inválido!")
         } else if (emailAlready != null) {
 //            throw new Error("Email já cadastrado!", console.log(emailAlready))
-            throw new Error(emailAlready)
+            return response.status(201).json(emailAlready);
         } else if (celularValidate === false) {
             throw new Error("Celular Inválido!")
             //            } else if (celularAlready == false) {
