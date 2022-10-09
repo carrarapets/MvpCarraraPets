@@ -34,7 +34,7 @@ function validationEmail(email) {
 
 function validationPhone(celular) {
     celular = celular.replace(/\D/g, '');
-    if (isNaN(rg) === true) return false;
+    if (isNaN(celular) === true) return false;
     if (!(celular.length >= 10 && celular.length <= 11)) return false;
     if (celular.length == 11 && parseInt(celular.substring(2, 3)) != 9) return false;
     for (var n = 0; n < 10; n++) {
