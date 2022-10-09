@@ -23,11 +23,7 @@ function validationEmail(email) {
             id: true,
         },
     })
-    if (getUser === null) {
-        return true;
-    } else {
-        return false;
-    }
+      return getUser;
 }
 
 function validationPhone(celular) {
