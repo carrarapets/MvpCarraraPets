@@ -33,11 +33,11 @@ function validationEmail(email) {
 }*/
 
 function validationPhone(celular) {
-    telefone = telefone.replace(/\D/g, '');
-    if (!(telefone.length >= 10 && telefone.length <= 11)) return false;
-    if (telefone.length == 11 && parseInt(telefone.substring(2, 3)) != 9) return false;
+    celular = celular.replace(/\D/g, '');
+    if (!(celular.length >= 10 && celular.length <= 11)) return false;
+    if (celular.length == 11 && parseInt(celular.substring(2, 3)) != 9) return false;
     for (var n = 0; n < 10; n++) {
-        if (telefone == new Array(11).join(n) || telefone == new Array(12).join(n)) return false;
+        if (celular == new Array(11).join(n) || celular == new Array(12).join(n)) return false;
     }
     var codigosDDD = [11, 12, 13, 14, 15, 16, 17, 18, 19,
         21, 22, 24, 27, 28, 31, 32, 33, 34,
@@ -47,9 +47,9 @@ function validationPhone(celular) {
         74, 75, 77, 79, 81, 82, 83, 84, 85,
         86, 87, 88, 89, 91, 92, 93, 94, 95,
         96, 97, 98, 99];
-    if (codigosDDD.indexOf(parseInt(telefone.substring(0, 2))) == -1) return false;
+    if (codigosDDD.indexOf(parseInt(celular.substring(0, 2))) == -1) return false;
     if (new Date().getFullYear() < 2017) return true;
-    if (telefone.length == 10 && [2, 3, 4, 5, 7].indexOf(parseInt(telefone.substring(2, 3))) == -1) return false;
+    if (celular.length == 10 && [2, 3, 4, 5, 7].indexOf(parseInt(celular.substring(2, 3))) == -1) return false;
     return true;
 }
 
@@ -74,20 +74,20 @@ function validationDocument(cpf) {
     var Soma;
     var Resto;
     Soma = 0;
-  if (strCPF == "00000000000") return false;
+  if (cpf == "00000000000") return false;
 
-  for (i=1; i<=9; i++) Soma = Soma + parseInt(strCPF.substring(i-1, i)) * (11 - i);
+  for (i=1; i<=9; i++) Soma = Soma + parseInt(cpf.substring(i-1, i)) * (11 - i);
   Resto = (Soma * 10) % 11;
 
     if ((Resto == 10) || (Resto == 11))  Resto = 0;
-    if (Resto != parseInt(strCPF.substring(9, 10)) ) return false;
+    if (Resto != parseInt(cpf.substring(9, 10)) ) return false;
 
   Soma = 0;
-    for (i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i-1, i)) * (12 - i);
+    for (i = 1; i <= 10; i++) Soma = Soma + parseInt(cpf.substring(i-1, i)) * (12 - i);
     Resto = (Soma * 10) % 11;
 
     if ((Resto == 10) || (Resto == 11))  Resto = 0;
-    if (Resto != parseInt(strCPF.substring(10, 11) ) ) return false;
+    if (Resto != parseInt(cpf.substring(10, 11) ) ) return false;
     return true;
 }
 
