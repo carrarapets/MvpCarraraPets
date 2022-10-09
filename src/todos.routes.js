@@ -29,32 +29,32 @@ todosRoutes.post("/createuser", async(request, response) =>{
         },   
     });
         
-    const emailValidate = RuleValidation.validationEmail(data.email);
+    const emailValidate = RuleValidation.validationEmail(email);
     if(emailValidate == false){
         throw new Error("Email Inválido!")
         }
         
-    const emailAlready = RuleValidation.emailAlreadyExist(data.email);
+    const emailAlready = RuleValidation.emailAlreadyExist(email);
         if (emailAlready == false) {
         throw new Error("Email já cadastrado!")
         }
         
-    const celularValidate = RuleValidation.validationPhone(data.celular);
+    const celularValidate = RuleValidation.validationPhone(celular);
     if(celularValidate == false){
         throw new Error("Celular Inválido!")
         }
 
-    const celularAlready = RuleValidation.phoneAlreadyExist(data.celular);
+    const celularAlready = RuleValidation.phoneAlreadyExist(celular);
         if (celularAlready == false) {
         throw new Error("Celular já cadastrado!")
         }
 
-    const documentValidate = RuleValidation.validationPhone(data.cpf);
+    const documentValidate = RuleValidation.validationPhone(cpf);
     if(documentValidate == false){
         throw new Error("CPF Inválido!")
         }
 
-    const documentAlready = RuleValidation.phoneAlreadyExist(data.celular);
+    const documentAlready = RuleValidation.phoneAlreadyExist(celular);
         if (documentAlready == false) {
         throw new Error("CPF já cadastrado!")
         }
@@ -139,32 +139,32 @@ todosRoutes.post("/updateuser/:id", async(request, response)=>{
         }
     });
 
-    const emailValidate = RuleValidation.validationEmail(data.email);
+    const emailValidate = RuleValidation.validationEmail(email);
     if(emailValidate == false){
         throw new Error("Email Inválido!")
         }
         
-    const emailAlready = RuleValidation.emailAlreadyExist(data.email);
+    const emailAlready = RuleValidation.emailAlreadyExist(email);
         if (emailAlready == false) {
         throw new Error("Email já cadastrado!")
         }
         
-    const celularValidate = RuleValidation.validationPhone(data.celular);
+    const celularValidate = RuleValidation.validationPhone(celular);
     if(celularValidate == false){
         throw new Error("Celular Inválido!")
         }
 
-    const celularAlready = RuleValidation.phoneAlreadyExist(data.celular);
+    const celularAlready = RuleValidation.phoneAlreadyExist(celular);
         if (celularAlready == false) {
         throw new Error("Celular já cadastrado!")
         }
 
-    const documentValidate = RuleValidation.validationPhone(data.cpf);
+    const documentValidate = RuleValidation.validationPhone(cpf);
     if(documentValidate == false){
         throw new Error("CPF Inválido!")
         }
 
-    const documentAlready = RuleValidation.phoneAlreadyExist(data.celular);
+    const documentAlready = RuleValidation.phoneAlreadyExist(celular);
         if (documentAlready == false) {
         throw new Error("CPF já cadastrado!")
         }
