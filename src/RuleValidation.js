@@ -3,6 +3,8 @@ const emailValidator = require('email-validator');
 const phoneValidator = require('validate-phone-number-node-js');
 const documentValidator = require('cpf-cnpj-validator');
 const { prisma } = require('@prisma/client');
+const { isNumber } = require('util');
+const { updateTypeLiteralNode } = require('typescript');
 
 
 
@@ -33,8 +35,8 @@ function validationEmail(email) {
 }*/
 
 function validationPhone(celular) {
-    celular = celular.replace(/\D/g, '');
     if (isNaN(celular) === true) return false;
+    celular = celular.replace(/\D/g, '');
     if (!(celular.length >= 10 && celular.length <= 11)) return false;
     if (celular.length == 11 && parseInt(celular.substring(2, 3)) != 9) return false;
     for (var n = 0; n < 10; n++) {
