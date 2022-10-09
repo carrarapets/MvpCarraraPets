@@ -23,7 +23,7 @@ function validationEmail(email) {
             id: true,
         },
     });
-      return parseInt(getUser);
+      return toString(getUser);
 }
 
 function validationPhone(celular) {
