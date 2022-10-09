@@ -1,10 +1,9 @@
-
+const todoroutes = require('./todos.routes')
 const emailValidator = require('email-validator');
 const phoneValidator = require('validate-phone-number-node-js');
 const documentValidator = require('cpf-cnpj-validator');
 const { prisma } = require('@prisma/client');
 
-const prisma = new PrismaClient();
 
 
 function validationEmail(email) {
@@ -16,7 +15,7 @@ function validationEmail(email) {
 }
 
     function emailAlreadyExist(emailAlready) { 
-    const getUser = prisma.user.findUnique({
+    const getUser = todoroutes.prisma.user.findUnique({
         where: {
             emailAlready: String(emailAlready)
         },
