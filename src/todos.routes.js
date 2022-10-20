@@ -2,7 +2,12 @@
 const { response, request } = require("express");
 
 const express = require("express")
+<<<<<<< HEAD
 const jwt = require('jsonwebtoken');
+=======
+const RuleValidation = require('./RuleValidation')
+
+>>>>>>> e957aee060d46ecf809fc24c88074679f13cd2ec
 const todosRoutes = express.Router();
 const {PrismaClient} = require("@prisma/client");
 const { equal } = require("assert");
@@ -18,6 +23,7 @@ function verifyJwt (request, response, next){
     jwt.verify(token, secret, async(err, decoded) =>{
         if(err) return response.status(401).end();
 
+<<<<<<< HEAD
         request.id = decoded.id;
         next();
     })
@@ -26,6 +32,43 @@ todosRoutes.post("/createuser", async(request, response) =>{
     try {
         
         const{nome, sobrenome, cpf, celular, email, password, rg, foto}=request.body;
+=======
+todosRoutes.post("/createuser", async (request, response) => {
+    
+    try {
+    const { nome, sobrenome, cpf, celular, email, password, rg, foto } = request.body;
+        
+    const emailValidate = RuleValidation.validationEmail(email);
+    const emailAlready = RuleValidation.emailAlreadyExist(email);
+    const celularValidate = RuleValidation.validationPhone(celular);
+//  const celularAlready = RuleValidation.phoneAlreadyExist(celular);
+    const documentCpfValidate = RuleValidation.validationCpfDocument(cpf);      
+//  const documentCpfAlready = RuleValidation.CpfAlreadyExist(cpf);    
+    const documentRgValidate = RuleValidation.validationRgDocument(rg);      
+//  const documentRgAlready = RuleValidation.RgAlreadyExist(rg);   
+        
+        if (emailValidate === false) {
+            throw new Error("Email Inválido!")
+        } else if (emailAlready != null) {
+//            throw new Error("Email já cadastrado!", console.log(emailAlready))
+            return response.status(201).json(emailAlready);
+        } else if (celularValidate === false) {
+            throw new Error("Celular Inválido!")
+            //            } else if (celularAlready == false) {
+            //                  throw new Error("Celular já cadastrado!")
+        } else if (documentCpfValidate === false) {
+            throw new Error("CPF Inválido!")
+            //                                } else if (documentCpfAlready == false) {
+            //                                throw new Error("CPF já cadastrado!")
+        } else if (documentRgValidate === false) {
+            throw new Error("RG Inválido!")
+            //                                } else if (documentRgAlready == false) {
+            //                                throw new Error("CPF já cadastrado!")
+        } else {
+
+        
+        
+>>>>>>> e957aee060d46ecf809fc24c88074679f13cd2ec
     const criaUsuario = await prisma.user.create({
         
         data:{
@@ -38,6 +81,7 @@ todosRoutes.post("/createuser", async(request, response) =>{
             valido: true,
             rg, 
             foto
+<<<<<<< HEAD
             
 
         },
@@ -57,32 +101,54 @@ todosRoutes.post("/createuser", async(request, response) =>{
     );
     
     return response.status(201).json(criaUsuario, token);
+=======
+        },   
+    });
+>>>>>>> e957aee060d46ecf809fc24c88074679f13cd2ec
         
+     return response.status(201).json(criaUsuario); }
+
     } catch (error) {
-        return response.status(500).json({message: error.message});
+        return response.status(500).json({ message: error.message });
     }
     
 });
+<<<<<<< HEAD
 todosRoutes.post("/LoginUser", async(request, response)=>{
+=======
+
+
+todosRoutes.get("/loginuser", async(request, response)=>{
+>>>>>>> e957aee060d46ecf809fc24c88074679f13cd2ec
     try {
         const {email, password}= request.body;
-    
+
         const loginUser =  await prisma.user.findFirst({
             where:{
+<<<<<<< HEAD
                 email: email,
                 password: password,
                 
+=======
+                email: String(email),
+                password: String(password)
+>>>>>>> e957aee060d46ecf809fc24c88074679f13cd2ec
 
             }
            
             
         })
+<<<<<<< HEAD
         const id =  await prisma.user.id;
         
+=======
+
+>>>>>>> e957aee060d46ecf809fc24c88074679f13cd2ec
     if(!loginUser){
         throw new Error("Usuário/Senha incorreto")
 
     }
+<<<<<<< HEAD
    
         const token = jwt.sign(loginUser,process.env.SECRET);
         if(!loginUser){
@@ -97,6 +163,14 @@ todosRoutes.post("/LoginUser", async(request, response)=>{
     }
    
     
+=======
+    return response.status(200).json("login efetuado com sucesso");
+
+    } catch (error) {
+        return response.status(500).json({message: error.message});
+    }
+
+>>>>>>> e957aee060d46ecf809fc24c88074679f13cd2ec
 });
    
         
@@ -134,25 +208,55 @@ todosRoutes.get("/", (req, res) =>{
 
 todosRoutes.post("/updateuser/:id", async(request, response)=>{
     try {
-        const{id} = request.params;
-    const atualizaUsuario = await prisma.user.update({
-        where:{
-            id: Number(id)
-        },
-        data:{
-            nome,
-            sobrenome,
-            cpf,
-            celular,
-            email,
-            password,
-            valido: true,
-            rg, 
-            foto
+        const { id } = request.params;
+        
+        const emailValidate = RuleValidation.validationEmail(email);
+        const emailAlready = RuleValidation.emailAlreadyExist(email);
+        const celularValidate = RuleValidation.validationPhone(celular);
+        //  const celularAlready = RuleValidation.phoneAlreadyExist(celular);
+        const documentCpfValidate = RuleValidation.validationCpfDocument(cpf);
+        //  const documentCpfAlready = RuleValidation.CpfAlreadyExist(cpf);    
+        const documentRgValidate = RuleValidation.validationRgDocument(rg);
+        //  const documentRgAlready = RuleValidation.RgAlreadyExist(rg);   
+        
+        if (emailValidate === false) {
+            throw new Error("Email Inválido!")
+                   }
+                   else if (emailAlready == false) {
+                      throw new Error("Email já cadastrado!")
+        } else if (celularValidate === false) {
+            throw new Error("Celular Inválido!")
+            //            } else if (celularAlready == false) {
+            //                  throw new Error("Celular já cadastrado!")
+        } else if (documentCpfValidate === false) {
+            throw new Error("CPF Inválido!")
+            //                                } else if (documentCpfAlready == false) {
+            //                                throw new Error("CPF já cadastrado!")
+        } else if (documentRgValidate === false) {
+            throw new Error("RG Inválido!")
+            //                                } else if (documentRgAlready == false) {
+            //                                throw new Error("CPF já cadastrado!")
+        } else {
+            const atualizaUsuario = await prisma.user.update({
+                where: {
+                    id: Number(id)
+                },
+                data: {
+                    nome,
+                    sobrenome,
+                    cpf,
+                    celular,
+                    email,
+                    password,
+                    valido: true,
+                    rg,
+                    foto
             
+                }
+            });
+
+            return response.status(200).json(atualizaUsuario);
         }
-    });
-    return response.status(200).json(atualizaUsuario);
     } catch (error) {
         return response.status(200).json({message: error.message});
     }
