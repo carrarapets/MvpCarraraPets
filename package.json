@@ -16,15 +16,10 @@
   "dependencies": {
     "@prisma/client": "^4.0.0",
     "cors": "^2.8.5",
-<<<<<<< HEAD
-    "dotenv": "^16.0.3",
-    "express": "^4.18.2",
-=======
     "cpf-cnpj-validator": "^1.0.3",
-    "dotenv": "^16.0.1",
+    "dotenv": "^16.0.3",
     "email-validator": "^2.0.4",
-    "express": "^4.18.1",
->>>>>>> e957aee060d46ecf809fc24c88074679f13cd2ec
+    "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
     "heroku": "^7.60.2",
     "jsonwebtoken": "^8.5.1",

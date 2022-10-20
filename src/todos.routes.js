@@ -2,15 +2,12 @@
 const { response, request } = require("express");
 
 const express = require("express")
-<<<<<<< HEAD
 const jwt = require('jsonwebtoken');
-=======
 const RuleValidation = require('./RuleValidation')
 
->>>>>>> e957aee060d46ecf809fc24c88074679f13cd2ec
 const todosRoutes = express.Router();
 const {PrismaClient} = require("@prisma/client");
-const { equal } = require("assert");
+const { equal, ok } = require("assert");
 const ConfigServerEmail = require("./serverEmail");
 
 
@@ -23,16 +20,11 @@ function verifyJwt (request, response, next){
     jwt.verify(token, secret, async(err, decoded) =>{
         if(err) return response.status(401).end();
 
-<<<<<<< HEAD
-        request.id = decoded.id;
-        next();
+        request.loginUser = decoded.loginUser;
+
+
     })
-}
-todosRoutes.post("/createuser", async(request, response) =>{
-    try {
-        
-        const{nome, sobrenome, cpf, celular, email, password, rg, foto}=request.body;
-=======
+};
 todosRoutes.post("/createuser", async (request, response) => {
     
     try {
@@ -68,7 +60,6 @@ todosRoutes.post("/createuser", async (request, response) => {
 
         
         
->>>>>>> e957aee060d46ecf809fc24c88074679f13cd2ec
     const criaUsuario = await prisma.user.create({
         
         data:{
@@ -81,7 +72,6 @@ todosRoutes.post("/createuser", async (request, response) => {
             valido: true,
             rg, 
             foto
-<<<<<<< HEAD
             
 
         },
@@ -89,9 +79,9 @@ todosRoutes.post("/createuser", async (request, response) => {
     },
     ConfigServerEmail.sendMail({
         from:'Carrara Pets <carrarapets@gmail.com>',
-        to: 'ronaldo.junior@aluno.ifsp.edu.br',
-        subject: 'Testando email',
-        html:' <h1>oi,'+ nome+' '+sobrenome+ ' tudo bem?</h1> <p> estou testando o envio de email',
+        to: email,
+        subject: 'Cadastro Completo',
+        html:' <h1>oi,'+ nome+' '+sobrenome+ ' tudo bem?</h1> <p> eviando esse email, para confirmar seu cadastro',
         text:'oi, tudo bem? Estou testando o envio de email'
     
     })
@@ -100,77 +90,45 @@ todosRoutes.post("/createuser", async (request, response) => {
     
     );
     
-    return response.status(201).json(criaUsuario, token);
-=======
-        },   
-    });
->>>>>>> e957aee060d46ecf809fc24c88074679f13cd2ec
-        
-     return response.status(201).json(criaUsuario); }
-
-    } catch (error) {
-        return response.status(500).json({ message: error.message });
-    }
     
-});
-<<<<<<< HEAD
-todosRoutes.post("/LoginUser", async(request, response)=>{
-=======
+    }       
+    
+    
+}
 
 
-todosRoutes.get("/loginuser", async(request, response)=>{
->>>>>>> e957aee060d46ecf809fc24c88074679f13cd2ec
+catch (error) {
+    return response.status(500).json({ message: error.message });
+}  
+return response.status(201).json(criaUsuario, token);
+
+    });
+
+
+todosRoutes.post("/loginuser", async(request, response)=>{
     try {
         const {email, password}= request.body;
 
         const loginUser =  await prisma.user.findFirst({
             where:{
-<<<<<<< HEAD
-                email: email,
-                password: password,
-                
-=======
                 email: String(email),
                 password: String(password)
->>>>>>> e957aee060d46ecf809fc24c88074679f13cd2ec
 
             }
            
             
         })
-<<<<<<< HEAD
-        const id =  await prisma.user.id;
-        
-=======
-
->>>>>>> e957aee060d46ecf809fc24c88074679f13cd2ec
     if(!loginUser){
         throw new Error("Usuário/Senha incorreto")
 
     }
-<<<<<<< HEAD
-   
-        const token = jwt.sign(loginUser,process.env.SECRET);
-        if(!loginUser){
-           response.status(401).end();
-    
-        }
-        return response.status(200).json({auth: true, token});
-    
-        
-    } catch (error) {
-        return response.status(500).json({message: error.message});
-    }
-   
-    
-=======
-    return response.status(200).json("login efetuado com sucesso");
+    const token = jwt.sign(loginUser, secret);
+    return response.status(200).json({auth: true, token});
 
     } catch (error) {
         return response.status(500).json({message: error.message});
     }
 
->>>>>>> e957aee060d46ecf809fc24c88074679f13cd2ec
 });
    
         
@@ -206,7 +164,7 @@ todosRoutes.get("/", (req, res) =>{
     
 });
 
-todosRoutes.post("/updateuser/:id", async(request, response)=>{
+todosRoutes.post("/updateuser/:id", verifyJwt, async(request, response)=>{
     try {
         const { id } = request.params;
         
@@ -263,7 +221,7 @@ todosRoutes.post("/updateuser/:id", async(request, response)=>{
     
 });
 
-todosRoutes.delete("/deleteuser/:id", async(request, response)=>{
+todosRoutes.delete("/deleteuser/:id", verifyJwt, async(request, response)=>{
     try {
         const{id}= request.params;
     const deletaUsuario = await prisma.user.delete({
@@ -292,7 +250,7 @@ todosRoutes.delete("/deleteuser/:id", async(request, response)=>{
     
 });
 // ROTAS USUARIO COM PET
-todosRoutes.post("/createpet/", async(request, response)=>{
+todosRoutes.post("/createpet/", verifyJwt, async(request, response)=>{
     try {
         const {userId, nome, peso, comportamento, foto, sexo, raca, especia}= request.params;
 const criaPet = await prisma.pet.create({
@@ -315,7 +273,7 @@ return response.status(200).json(criaPet);
     }
 
 });
-todosRoutes.get("/getpet/:id", async (request, response) =>{
+todosRoutes.get("/getpet/:id", verifyJwt, async (request, response) =>{
 
     try {
         const {userId} = request.body;
@@ -331,7 +289,7 @@ todosRoutes.get("/getpet/:id", async (request, response) =>{
     }
 });
 
-todosRoutes.post("/updatepet/:id", async(request, response)=>{
+todosRoutes.post("/updatepet/:id", verifyJwt,  async(request, response)=>{
     try {
         const {userId}= request.params;
 const criaPet = await prisma.pet.create({
