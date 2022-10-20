@@ -1,20 +1,33 @@
 
-const { response } = require("express");
+const { response, request } = require("express");
 
 const express = require("express")
-
+const jwt = require('jsonwebtoken');
 const todosRoutes = express.Router();
 const {PrismaClient} = require("@prisma/client");
 const { equal } = require("assert");
+const ConfigServerEmail = require("./serverEmail");
+
 
 const prisma = new PrismaClient();
 
+const secret = process.env.SECRET;
 
+function verifyJwt (request, response, next){
+    const token =  req.headers['x-access-token'];
+    jwt.verify(token, secret, async(err, decoded) =>{
+        if(err) return response.status(401).end();
 
+        request.id = decoded.id;
+        next();
+    })
+}
 todosRoutes.post("/createuser", async(request, response) =>{
     try {
+        
         const{nome, sobrenome, cpf, celular, email, password, rg, foto}=request.body;
     const criaUsuario = await prisma.user.create({
+        
         data:{
             nome,
             sobrenome,
@@ -27,46 +40,75 @@ todosRoutes.post("/createuser", async(request, response) =>{
             foto
             
 
-        }
-    });
-    return response.status(201).json(criaUsuario);
+        },
+     
+    },
+    ConfigServerEmail.sendMail({
+        from:'Carrara Pets <carrarapets@gmail.com>',
+        to: 'ronaldo.junior@aluno.ifsp.edu.br',
+        subject: 'Testando email',
+        html:' <h1>oi,'+ nome+' '+sobrenome+ ' tudo bem?</h1> <p> estou testando o envio de email',
+        text:'oi, tudo bem? Estou testando o envio de email'
+    
+    })
+    .then((reponse)=> console.log('Email enviado com sucesso') )
+    .catch((err) => console.log('Erro ao enviar email', err))
+    
+    );
+    
+    return response.status(201).json(criaUsuario, token);
         
     } catch (error) {
         return response.status(500).json({message: error.message});
     }
     
 });
-todosRoutes.get("/loginuser", async(request, response)=>{
+todosRoutes.post("/LoginUser", async(request, response)=>{
     try {
         const {email, password}= request.body;
     
         const loginUser =  await prisma.user.findFirst({
             where:{
                 email: email,
-                password: password
+                password: password,
+                
 
             }
+           
+            
         })
+        const id =  await prisma.user.id;
         
     if(!loginUser){
         throw new Error("Usuário/Senha incorreto")
 
     }
-    const comparaSenha =  equal(user.password, password);
-    if (!comparaSenha) {
-        throw new Error("Usuário/Senha incorreto")
-        
-    }
-    return response.status(200).json("login efetuado com sucesso");
+   
+        const token = jwt.sign(loginUser,process.env.SECRET);
+        if(!loginUser){
+           response.status(401).end();
+    
+        }
+        return response.status(200).json({auth: true, token});
+    
         
     } catch (error) {
         return response.status(500).json({message: error.message});
     }
+   
     
 });
+   
+        
+
+    
 
 
-todosRoutes.get("/getuser/:id", async(request, response)=>{
+todosRoutes.get("/logout", async(request, reponse) =>{
+response.end();
+});
+
+todosRoutes.get("/getuser/:id", verifyJwt, async(request, response)=>{
     try {
         const {id} = request.params;
     const lerUsuario = await prisma.user.findUnique({
@@ -75,13 +117,15 @@ todosRoutes.get("/getuser/:id", async(request, response)=>{
         },
 
     })
-    return response.status(200).json(lerUsuario);
+    const token = jwt.sign({id},process.env.SECRET);
+    return response.status(200).json(lerUsuario, token);
     } catch (error) {
         return response.status(200).json({message: error.message});
     }
     
 });
 todosRoutes.get("/", (req, res) =>{
+    
     res.json({
        message: "hello word"
     });
