@@ -14,7 +14,7 @@ function validationEmail(email) {
         }
 }
 
-  function emailAlreadyExist(email) { 
+/*  function emailAlreadyExist(email) { 
     const getUser = prisma.user.findUnique({
         where: {
             email: email,
@@ -24,7 +24,7 @@ function validationEmail(email) {
         },
     });
       return toString(getUser);
-}
+}*/
 
 function validationPhone(celular) {
     if (isNaN(celular) === true) return false;
