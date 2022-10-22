@@ -8,6 +8,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node src/server.js"
   },
+  "engines": { 
+   "node": "16.17.0" 
+ } ,
   "prisma": {
     "schema": "prisma/schema.prisma"
   },
