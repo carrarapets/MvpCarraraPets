@@ -14,6 +14,8 @@
   "prisma": {
     "schema": "prisma/schema.prisma"
   },
+  "stacks":"heroku-22",
+  
   "author": "",
   "license": "ISC",
   "dependencies": {
