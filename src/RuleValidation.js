@@ -1,5 +1,5 @@
 
-//const emailValidator = require('email-validator');
+const emailValidator = require('email-validator');
 //const phoneValidator = require('validate-phone-number-node-js');
 //const documentValidator = require('cpf-cnpj-validator');
 const {PrismaClient} = require("@prisma/client");
@@ -119,7 +119,7 @@ function validationRgDocument(rg) {
 
 
 
-//exports.validationEmail = validationEmail;
+exports.validationEmail = validationEmail;
 //exports.emailAlreadyExist = emailAlreadyExist;
 exports.validationPhone = validationPhone;
 //exports.phoneAlreadyExist = phoneAlreadyExist;

@@ -6,7 +6,7 @@ const RuleValidation = require('./RuleValidation')
 const jwt = require('jsonwebtoken');
 const todosRoutes = express.Router();
 const {PrismaClient} = require("@prisma/client");
-const { equal } = require("assert");
+const { equal, ok } = require("assert");
 const ConfigServerEmail = require("./serverEmail");
 
 
@@ -30,7 +30,7 @@ todosRoutes.post("/createuser", async (request, response) => {
     try {
     const { nome, sobrenome, cpf, celular, email, password, rg, foto } = request.body;
         
-    //const emailValidate = RuleValidation.validationEmail(email);
+    const emailValidate = RuleValidation.validationEmail(email);
     //const emailAlready = RuleValidation.emailAlreadyExist(email);
     const celularValidate = RuleValidation.validationPhone(celular);
 //  const celularAlready = RuleValidation.phoneAlreadyExist(celular);
@@ -41,9 +41,8 @@ todosRoutes.post("/createuser", async (request, response) => {
         
         if (emailValidate === false) {
             throw new Error("Email Inválido!")
-        } else if (emailAlready != null) {
+//        } else if (emailAlready === false) {
 //            throw new Error("Email já cadastrado!", console.log(emailAlready))
-            return response.status(201).json(emailAlready);
         } else if (celularValidate === false) {
             throw new Error("Celular Inválido!")
             //            } else if (celularAlready == false) {
@@ -144,12 +143,12 @@ todosRoutes.get("/", (req, res) =>{
     
 });
 
-todosRoutes.post("/updateuser/:id", async(request, response)=>{
+todosRoutes.post("/updateuser/:id", verifyJwt, async(request, response)=>{
     try {
         const { id } = request.params;
         
         const emailValidate = RuleValidation.validationEmail(email);
-        const emailAlready = RuleValidation.emailAlreadyExist(email);
+  //      const emailAlready = RuleValidation.emailAlreadyExist(email);
         const celularValidate = RuleValidation.validationPhone(celular);
         //  const celularAlready = RuleValidation.phoneAlreadyExist(celular);
         const documentCpfValidate = RuleValidation.validationCpfDocument(cpf);
@@ -159,9 +158,9 @@ todosRoutes.post("/updateuser/:id", async(request, response)=>{
         
         if (emailValidate === false) {
             throw new Error("Email Inválido!")
-                   }
-                   else if (emailAlready == false) {
-                      throw new Error("Email já cadastrado!")
+        //           }
+        //           else if (emailAlready == false) {
+        //             throw new Error("Email já cadastrado!")
         } else if (celularValidate === false) {
             throw new Error("Celular Inválido!")
             //            } else if (celularAlready == false) {
@@ -201,7 +200,7 @@ todosRoutes.post("/updateuser/:id", async(request, response)=>{
     
 });
 
-todosRoutes.delete("/deleteuser/:id", async(request, response)=>{
+todosRoutes.delete("/deleteuser/:id", verifyJwt, async(request, response)=>{
     try {
         const{id}= request.params;
     const deletaUsuario = await prisma.user.delete({
@@ -230,7 +229,7 @@ todosRoutes.delete("/deleteuser/:id", async(request, response)=>{
     
 });
 // ROTAS USUARIO COM PET
-todosRoutes.post("/createpet/", async(request, response)=>{
+todosRoutes.post("/createpet/", verifyJwt, async(request, response)=>{
     try {
         const {userId, nome, peso, comportamento, foto, sexo, raca, especia}= request.params;
 const criaPet = await prisma.pet.create({
@@ -253,7 +252,7 @@ return response.status(200).json(criaPet);
     }
 
 });
-todosRoutes.get("/getpet/:id", async (request, response) =>{
+todosRoutes.get("/getpet/:id", verifyJwt, async (request, response) =>{
 
     try {
         const {userId} = request.body;
@@ -269,7 +268,7 @@ todosRoutes.get("/getpet/:id", async (request, response) =>{
     }
 });
 
-todosRoutes.post("/updatepet/:id", async(request, response)=>{
+todosRoutes.post("/updatepet/:id", verifyJwt,  async(request, response)=>{
     try {
         const {userId}= request.params;
 const criaPet = await prisma.pet.create({
