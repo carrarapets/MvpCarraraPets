@@ -30,8 +30,8 @@ todosRoutes.post("/createuser", async (request, response) => {
     try {
     const { nome, sobrenome, cpf, celular, email, password, rg, foto } = request.body;
         
-    const emailValidate = RuleValidation.validationEmail(email);
-    const emailAlready = RuleValidation.emailAlreadyExist(email);
+    //const emailValidate = RuleValidation.validationEmail(email);
+    //const emailAlready = RuleValidation.emailAlreadyExist(email);
     const celularValidate = RuleValidation.validationPhone(celular);
 //  const celularAlready = RuleValidation.phoneAlreadyExist(celular);
     const documentCpfValidate = RuleValidation.validationCpfDocument(cpf);      

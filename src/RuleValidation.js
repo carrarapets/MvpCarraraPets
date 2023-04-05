@@ -1,7 +1,7 @@
 
-const emailValidator = require('email-validator');
-const phoneValidator = require('validate-phone-number-node-js');
-const documentValidator = require('cpf-cnpj-validator');
+//const emailValidator = require('email-validator');
+//const phoneValidator = require('validate-phone-number-node-js');
+//const documentValidator = require('cpf-cnpj-validator');
 const {PrismaClient} = require("@prisma/client");
 
 const prisma = new PrismaClient();
@@ -14,7 +14,7 @@ function validationEmail(email) {
         }
 }
 
-  function emailAlreadyExist(email) { 
+/*  function emailAlreadyExist(email) { 
     const getUser = prisma.user.findUnique({
         where: {
             email: email,
@@ -24,7 +24,7 @@ function validationEmail(email) {
         },
     });
       return toString(getUser);
-}
+}*/
 
 function validationPhone(celular) {
     if (isNaN(celular) === true) return false;
@@ -119,8 +119,8 @@ function validationRgDocument(rg) {
 
 
 
-exports.validationEmail = validationEmail;
-exports.emailAlreadyExist = emailAlreadyExist;
+//exports.validationEmail = validationEmail;
+//exports.emailAlreadyExist = emailAlreadyExist;
 exports.validationPhone = validationPhone;
 //exports.phoneAlreadyExist = phoneAlreadyExist;
 exports.validationCpfDocument = validationCpfDocument;

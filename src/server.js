@@ -35,5 +35,5 @@ app.get("/usere", (req, res) => {
     return res.json("up");
 
 });
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 8080;
 app.listen(port, ()=> console.log("Server up in "+port));
