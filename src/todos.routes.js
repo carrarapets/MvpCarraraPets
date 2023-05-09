@@ -30,17 +30,17 @@ todosRoutes.post("/createuser", async (request, response) => {
     try {
     const { nome, sobrenome, cpf, celular, email, password, rg, foto } = request.body;
         
-    const emailValidate = RuleValidation.validationEmail(email);
+//   const emailValidate = RuleValidation.validationEmail(email);
     //const emailAlready = RuleValidation.emailAlreadyExist(email);
-    const celularValidate = RuleValidation.validationPhone(celular);
+//    const celularValidate = RuleValidation.validationPhone(celular);
 //  const celularAlready = RuleValidation.phoneAlreadyExist(celular);
-    const documentCpfValidate = RuleValidation.validationCpfDocument(cpf);      
+//    const documentCpfValidate = RuleValidation.validationCpfDocument(cpf);      
 //  const documentCpfAlready = RuleValidation.CpfAlreadyExist(cpf);    
-    const documentRgValidate = RuleValidation.validationRgDocument(rg);      
+//    const documentRgValidate = RuleValidation.validationRgDocument(rg);      
 //  const documentRgAlready = RuleValidation.RgAlreadyExist(rg);   
         
-        if (emailValidate === false) {
-            throw new Error("Email Inválido!")
+//        if (emailValidate === false) {
+/*            throw new Error("Email Inválido!")
 //        } else if (emailAlready === false) {
 //            throw new Error("Email já cadastrado!", console.log(emailAlready))
         } else if (celularValidate === false) {
@@ -58,7 +58,7 @@ todosRoutes.post("/createuser", async (request, response) => {
         } else {
 
         
-        
+        */
     const criaUsuario = await prisma.user.create({
         
         data:{
@@ -76,7 +76,7 @@ todosRoutes.post("/createuser", async (request, response) => {
         
      return response.status(201).json(criaUsuario); }
 
-    } catch (error) {
+     catch (error) {
         return response.status(500).json({ message: error.message });
     }
     
