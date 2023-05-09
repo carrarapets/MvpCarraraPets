@@ -119,7 +119,7 @@ function validationRgDocument(rg) {
 
 
 
-//exports.validationEmail = validationEmail;
+exports.validationEmail = validationEmail;
 //exports.emailAlreadyExist = emailAlreadyExist;
 exports.validationPhone = validationPhone;
 //exports.phoneAlreadyExist = phoneAlreadyExist;
