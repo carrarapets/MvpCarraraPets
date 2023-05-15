@@ -27,6 +27,8 @@ model User {
   password  String?
   pets      Pet[]
   pedidos   Pedido[]
+  rotas Rota[]
+  localizacao Localizacao[]
 }
 
 model Pet {
@@ -60,12 +62,16 @@ model Pedido {
   cancelpass        Boolean
   cancelmoto        Boolean
   destino           Float
+  destino_lat       Float
   localizacao_atual Float
+  localizacao_atual_lat Float
   user              User      @relation(fields: [userId], references: [id])
   userId            Int
   motorista         Motorista @relation(fields: [motoristaId], references: [id])
-  motoristaId       Int       @unique
+  motoristaId       Int       
   viagem            Viagem[]
+  rotas Rota[]
+  localizacao Localizacao[]
 }
 
 model Motorista {
@@ -106,4 +112,27 @@ model Carro {
   cor         String?
   motorista   Motorista @relation(fields: [motoristaId], references: [id])
   motoristaId Int       @unique
+}
+
+model Localizacao {
+  id        Int      @id @default(autoincrement())
+  latitude  Float
+  longitude Float
+  latitude_destino Float
+  longiute_destino Float
+  pedido    Pedido   @relation(fields: [pedidoId], references: [id])
+  pedidoId  Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+}
+
+model Rota {
+  id        Int      @id @default(autoincrement())
+  latitude  Float
+  longitude Float
+  teste String
+  pedido    Pedido   @relation(fields: [pedidoId], references: [id])
+  pedidoId  Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
 }
