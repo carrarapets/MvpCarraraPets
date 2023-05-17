@@ -25,23 +25,56 @@ function verifyJwt (request, response, next){
 todosRoutes.post('/usuarios', async (req, res) => {
     const { nome, sobrenome, cpf, celular, email, password, rg, foto } = req.body;
     try {
-      const criaUsuario = await prisma.user.create({
-        data: {
-          nome,
-          sobrenome,
-          cpf,
-          celular,
-          email,
-          password,
-          valido: true,
-          rg,
-          foto
-        },
-      });
-      res.json(criaUsuario);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Erro ao criar novo usuário' });
+    const { nome, sobrenome, cpf, celular, email, password, rg, foto } = request.body;
+        
+//   const emailValidate = RuleValidation.validationEmail(email);
+    //const emailAlready = RuleValidation.emailAlreadyExist(email);
+//    const celularValidate = RuleValidation.validationPhone(celular);
+//  const celularAlready = RuleValidation.phoneAlreadyExist(celular);
+//    const documentCpfValidate = RuleValidation.validationCpfDocument(cpf);      
+//  const documentCpfAlready = RuleValidation.CpfAlreadyExist(cpf);    
+//    const documentRgValidate = RuleValidation.validationRgDocument(rg);      
+//  const documentRgAlready = RuleValidation.RgAlreadyExist(rg);   
+        
+//        if (emailValidate === false) {
+/*            throw new Error("Email Inválido!")
+//        } else if (emailAlready === false) {
+//            throw new Error("Email já cadastrado!", console.log(emailAlready))
+        } else if (celularValidate === false) {
+            throw new Error("Celular Inválido!")
+            //            } else if (celularAlready == false) {
+            //                  throw new Error("Celular já cadastrado!")
+        } else if (documentCpfValidate === false) {
+            throw new Error("CPF Inválido!")
+            //                                } else if (documentCpfAlready == false) {
+            //                                throw new Error("CPF já cadastrado!")
+        } else if (documentRgValidate === false) {
+            throw new Error("RG Inválido!")
+            //                                } else if (documentRgAlready == false) {
+            //                                throw new Error("CPF já cadastrado!")
+        } else {
+
+        
+        */
+    const criaUsuario = await prisma.user.create({
+        
+        data:{
+            nome,
+            sobrenome,
+            cpf,
+            celular,
+            email,
+            password,
+            valido: true,
+            rg, 
+            foto
+        },   
+    });
+        
+     return response.status(201).json(criaUsuario); }
+
+     catch (error) {
+        return response.status(500).json({ nome,sobrenome, message: error.message });
     }
   });
         

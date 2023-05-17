@@ -3,14 +3,14 @@ const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 const app = express();
-const teste = express.Router();
+const pedido = express.Router();
 app.use(express.json());
 
 
 
 
 
-teste.post('/pedido', async (req, res) => {
+pedido.post('/pedido', async (req, res) => {
   try {
     const { preco, final, inicio, cancelpass, cancelmoto, destino, destino_lat, localizacao_atual, localizacao_atual_lat, userId, motoristaId } = req.body;
     const pedido = await prisma.pedido.create({
@@ -43,7 +43,7 @@ teste.post('/pedido', async (req, res) => {
   }
 });
 
-teste.post('/localizacao/:id', async (req, res) => {
+pedido.post('/localizacao/:id', async (req, res) => {
   
   try {
 
@@ -71,4 +71,4 @@ teste.post('/localizacao/:id', async (req, res) => {
 });
 
 
-module.exports = teste;
+module.exports = pedido;

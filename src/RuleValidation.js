@@ -1,7 +1,5 @@
 
 const emailValidator = require('email-validator');
-//const phoneValidator = require('validate-phone-number-node-js');
-//const documentValidator = require('cpf-cnpj-validator');
 const {PrismaClient} = require("@prisma/client");
 
 const prisma = new PrismaClient();
@@ -14,17 +12,13 @@ function validationEmail(email) {
         }
 }
 
-/*  function emailAlreadyExist(email) { 
-    const getUser = prisma.user.findUnique({
-        where: {
-            email: email,
-        },
-        select: {
-            id: true,
-        },
+async function emailAlreadyExist(email) {
+    const resultado = await prisma.usuario.findUnique({
+      where: {
+        email: email
+      }
     });
-      return toString(getUser);
-}*/
+    return resultado;}
 
 function validationPhone(celular) {
     if (isNaN(celular) === true) return false;
@@ -48,22 +42,13 @@ function validationPhone(celular) {
     return true;
 }
 
-/*function phoneAlreadyExist(celularAlready) { 
-    const getUser =  prisma.user.findUnique({
+async function phoneAlreadyExist(celular) { 
+    const resultado = await prisma.usuario.findUnique({
         where: {
-            celular: celularAlready,
-        },
-        select: {
-            id: true,
-            nome: true,
-        },
-    })
-    if (getUser == null) {
-        return true;
-    } else {
-        return false;
-    }
-}*/
+          celular: celular
+        }
+      });
+      return resultado;}
 
 function validationCpfDocument(cpf) {
     var Soma;
@@ -86,22 +71,13 @@ function validationCpfDocument(cpf) {
     return true;
 }
 
-/*function CpfAlreadyExist(cpfAlready) { 
-    const getUser =  prisma.user.findUnique({
+async function CpfAlreadyExist(cpf) { 
+    const getUser = await prisma.user.findUnique({
         where: {
-            cpf: cpfAlready,
-        },
-        select: {
-            id: true,
-            nome: true,
-        },
-    })
-    if (getUser == null) {
-        return true;
-    } else {
-        return false;
-    }
-}*/
+            cpf: cpf
+          }
+        });
+        return resultado;}
 
 function validationRgDocument(rg) {
     if (rg.length === 9 && isNaN(rg) === false){
@@ -111,19 +87,20 @@ function validationRgDocument(rg) {
     }
 }
 
-/*function RgAlreadyExist() { 
-
-}*/
-
-
-
+async function RgAlreadyExist(rg) { 
+const getUser = await prisma.user.findUnique({
+    where: {
+        rg: rg
+      }
+    });
+    return resultado;}
 
 
 exports.validationEmail = validationEmail;
-//exports.emailAlreadyExist = emailAlreadyExist;
+exports.emailAlreadyExist = emailAlreadyExist;
 exports.validationPhone = validationPhone;
-//exports.phoneAlreadyExist = phoneAlreadyExist;
+exports.phoneAlreadyExist = phoneAlreadyExist;
 exports.validationCpfDocument = validationCpfDocument;
-//exports.CpfAlreadyExist = CpfAlreadyExist;
+exports.CpfAlreadyExist = CpfAlreadyExist;
 exports.validationRgDocument = validationRgDocument;
-//exports.RgAlreadyExist = RgAlreadyExist;
+exports.RgAlreadyExist = RgAlreadyExist;
