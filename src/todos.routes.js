@@ -22,40 +22,11 @@ function verifyJwt (request, response, next){
 }
         
 
-todosRoutes.post('/usuarios', async (req, res) => {
-    const { nome, sobrenome, cpf, celular, email, password, rg, foto } = req.body;
+todosRoutes.post('/createuser', async (req, res) => {
+   // const { nome, sobrenome, cpf, celular, email, password, rg, foto } = req.body;
     try {
-    const { nome, sobrenome, cpf, celular, email, password, rg, foto } = request.body;
-        
-//   const emailValidate = RuleValidation.validationEmail(email);
-    //const emailAlready = RuleValidation.emailAlreadyExist(email);
-//    const celularValidate = RuleValidation.validationPhone(celular);
-//  const celularAlready = RuleValidation.phoneAlreadyExist(celular);
-//    const documentCpfValidate = RuleValidation.validationCpfDocument(cpf);      
-//  const documentCpfAlready = RuleValidation.CpfAlreadyExist(cpf);    
-//    const documentRgValidate = RuleValidation.validationRgDocument(rg);      
-//  const documentRgAlready = RuleValidation.RgAlreadyExist(rg);   
-        
-//        if (emailValidate === false) {
-/*            throw new Error("Email Inválido!")
-//        } else if (emailAlready === false) {
-//            throw new Error("Email já cadastrado!", console.log(emailAlready))
-        } else if (celularValidate === false) {
-            throw new Error("Celular Inválido!")
-            //            } else if (celularAlready == false) {
-            //                  throw new Error("Celular já cadastrado!")
-        } else if (documentCpfValidate === false) {
-            throw new Error("CPF Inválido!")
-            //                                } else if (documentCpfAlready == false) {
-            //                                throw new Error("CPF já cadastrado!")
-        } else if (documentRgValidate === false) {
-            throw new Error("RG Inválido!")
-            //                                } else if (documentRgAlready == false) {
-            //                                throw new Error("CPF já cadastrado!")
-        } else {
+    const { nome, sobrenome, cpf, celular, email, password, rg, foto } = req.body;    
 
-        
-        */
     const criaUsuario = await prisma.user.create({
         
         data:{
@@ -69,12 +40,13 @@ todosRoutes.post('/usuarios', async (req, res) => {
             rg, 
             foto
         },   
-    });
+    },
+    );
         
-     return response.status(201).json(criaUsuario); }
+     return res.status(201).json(criaUsuario); }
 
      catch (error) {
-        return response.status(500).json({ nome,sobrenome, message: error.message });
+        return res.status(500).json({  message: error.message });
     }
   });
         
@@ -119,7 +91,7 @@ todosRoutes.get("/logout", async(request, reponse) =>{
 response.end();
 });
 
-todosRoutes.get("/getuser/:id", verifyJwt, async(request, response)=>{
+todosRoutes.get("/getuser/:id", async(request, response)=>{
     try {
         const {id} = request.params;
     const lerUsuario = await prisma.user.findUnique({
@@ -128,8 +100,8 @@ todosRoutes.get("/getuser/:id", verifyJwt, async(request, response)=>{
         },
 
     })
-    const token = jwt.sign({id},process.env.SECRET);
-    return response.status(200).json(lerUsuario, token);
+   // const token = jwt.sign({id},process.env.SECRET);
+    return response.status(200).json(lerUsuario);
     } catch (error) {
         return response.status(200).json({message: error.message});
     }
@@ -143,7 +115,7 @@ todosRoutes.get("/", (req, res) =>{
     
 });
 
-todosRoutes.post("/updateuser/:id", verifyJwt, async(request, response)=>{
+todosRoutes.post("/updateuser/:id",  async(request, response)=>{
     try {
         const { id } = request.params;
         
@@ -200,7 +172,7 @@ todosRoutes.post("/updateuser/:id", verifyJwt, async(request, response)=>{
     
 });
 
-todosRoutes.delete("/deleteuser/:id", verifyJwt, async(request, response)=>{
+todosRoutes.delete("/deleteuser/:id", async(request, response)=>{
     try {
         const{id}= request.params;
     const deletaUsuario = await prisma.user.delete({
@@ -229,7 +201,7 @@ todosRoutes.delete("/deleteuser/:id", verifyJwt, async(request, response)=>{
     
 });
 // ROTAS USUARIO COM PET
-todosRoutes.post("/createpet/", verifyJwt, async(request, response)=>{
+todosRoutes.post("/createpet",  async(request, response)=>{
     try {
         const {userId, nome, peso, comportamento, foto, sexo, raca, especia}= request.params;
 const criaPet = await prisma.pet.create({
@@ -241,18 +213,21 @@ const criaPet = await prisma.pet.create({
   sexo,          
   raca,          
   especia, 
-  userId     
-    }
+  user: {
+    connect: {
+      id : userId
+    },
+  },
 
     
-});
+}});
 return response.status(200).json(criaPet);
     } catch (error) {
         return response.status(200).json({message: error.message});
     }
 
 });
-todosRoutes.get("/getpet/:id", verifyJwt, async (request, response) =>{
+todosRoutes.get("/getpet/:id",  async (request, response) =>{
 
     try {
         const {userId} = request.body;
@@ -268,7 +243,7 @@ todosRoutes.get("/getpet/:id", verifyJwt, async (request, response) =>{
     }
 });
 
-todosRoutes.post("/updatepet/:id", verifyJwt,  async(request, response)=>{
+todosRoutes.post("/updatepet/:id",  async(request, response)=>{
     try {
         const {userId}= request.params;
 const criaPet = await prisma.pet.create({
