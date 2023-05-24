@@ -232,7 +232,7 @@ todosRoutes.get("/getpet/:userId", authToken,  async (request, response) =>{
 
     try {
         const {userId} = request.body;
- const mostraPet =  await prisma.user.findMany({
+ const mostraPet =  await prisma.pet.findMany({
     where:{
         Id: userId
     }
