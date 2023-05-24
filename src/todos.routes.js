@@ -4,29 +4,21 @@ const jwt = require('jsonwebtoken');
 const todosRoutes = express.Router();
 const {PrismaClient} = require("@prisma/client");
 const { equal, ok } = require("assert");
+const authToken = require("./authToken");
 const ConfigServerEmail = require("./serverEmail");
-
+const SendEmails = require("./serverEmail");
+const bcrypt = require('bcrypt');
 
 const prisma = new PrismaClient();
+const email = new SendEmails();
 
-const secret = process.env.SECRET;
-
-function verifyJwt (request, response, next){
-    const token =  req.headers['x-access-token'];
-    jwt.verify(token, secret, async(err, decoded) =>{
-        if(err) return response.status(401).end();
-        request.loginUser =  decoded.loginUser;
-        next();
-
-    })
-}
         
 
 todosRoutes.post('/createuser', async (req, res) => {
    // const { nome, sobrenome, cpf, celular, email, password, rg, foto } = req.body;
     try {
     const { nome, sobrenome, cpf, celular, email, password, rg, foto } = req.body;    
-
+    const hashedPassword = await bcrypt.hash(password, 10);
     const criaUsuario = await prisma.user.create({
         
         data:{
@@ -35,14 +27,15 @@ todosRoutes.post('/createuser', async (req, res) => {
             cpf,
             celular,
             email,
-            password,
-            valido: true,
+            password: hashedPassword,
             rg, 
-            foto
+            foto,
+            valido: false
         },   
-    },
+    }
     );
-        
+        const sendMail = new SendEmails();
+        sendMail.enviarEmailVerificacao(criaUsuario.email,"123456");
      return res.status(201).json(criaUsuario); }
 
      catch (error) {
@@ -62,18 +55,25 @@ todosRoutes.post("/loginuser", async(request, response)=>{
         const loginUser =  await prisma.user.findFirst({
             where:{
                 email: String(email),
-                password: String(password)
+               
 
             }
            
             
         })
+
        
     if(!loginUser){
         throw new Error("Usuário/Senha incorreto")
 
     }
-    const token = jwt.sign(loginUser, secret);
+    const passwordMatch = await bcrypt.compare(password, loginUser.password);
+    if(!passwordMatch){
+      return response.status(401).json({error: 'Credenciais inválidas'});
+
+    }
+
+    const token = jwt.sign({email: loginUser.email}, secret);
     return response.status(200).json({auth: true, token} );
 
     } catch (error) {
@@ -91,9 +91,10 @@ todosRoutes.get("/logout", async(request, reponse) =>{
 response.end();
 });
 
-todosRoutes.get("/getuser/:id", async(request, response)=>{
+todosRoutes.get("/getuser/:id",authToken, async(request, response)=>{
+    const {id} = request.params;
     try {
-        const {id} = request.params;
+        
     const lerUsuario = await prisma.user.findUnique({
         where:{
             id: Number(id)
@@ -115,7 +116,7 @@ todosRoutes.get("/", (req, res) =>{
     
 });
 
-todosRoutes.post("/updateuser/:id",  async(request, response)=>{
+todosRoutes.post("/updateuser/:id", authToken, async(request, response)=>{
     try {
         const { id } = request.params;
         
@@ -172,7 +173,7 @@ todosRoutes.post("/updateuser/:id",  async(request, response)=>{
     
 });
 
-todosRoutes.delete("/deleteuser/:id", async(request, response)=>{
+todosRoutes.delete("/deleteuser/:id",authToken, async(request, response)=>{
     try {
         const{id}= request.params;
     const deletaUsuario = await prisma.user.delete({
@@ -201,9 +202,9 @@ todosRoutes.delete("/deleteuser/:id", async(request, response)=>{
     
 });
 // ROTAS USUARIO COM PET
-todosRoutes.post("/createpet",  async(request, response)=>{
+todosRoutes.post("/createpet", authToken, async(request, response)=>{
     try {
-        const {userId, nome, peso, comportamento, foto, sexo, raca, especia}= request.params;
+        const {userId, nome, peso, comportamento, foto, sexo, raca, especia}= request.body;
 const criaPet = await prisma.pet.create({
     data:{
   nome,          
