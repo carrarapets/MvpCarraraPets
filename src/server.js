@@ -28,7 +28,7 @@ app.use(cors());
 app.use(express.json());
 app.use(todosRoutes);
 app.use(pedido);
-app.use(rota);
+
 
 
 app.get("/", (req, res) => {

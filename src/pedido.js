@@ -1,5 +1,6 @@
 const express = require('express');
 const { PrismaClient } = require('@prisma/client');
+const authToken = require('./authToken');
 
 const prisma = new PrismaClient();
 const app = express();
@@ -10,9 +11,28 @@ app.use(express.json());
 
 
 
-pedido.post('/pedido', async (req, res) => {
+pedido.post('/pedido/:userId',authToken, async (req, res) => {
   try {
-    const { preco, final, inicio, cancelpass, cancelmoto, destino, destino_lat, localizacao_atual, localizacao_atual_lat, userId, motoristaId } = req.body;
+    const {userId}= request.params;
+    const { preco, final, inicio, cancelpass, cancelmoto, destino, destino_lat, localizacao_atual, localizacao_atual_lat, motoristaId, petId } = req.body;
+
+    const userPets = await prisma.user.findUnique({
+      where:{id: Number(userId)},
+      include:{pets:true}
+    });
+    if (!userPets) {
+      return res.status(404).json({ success: false, message: 'Usuário não encontrado ou não possui pets.' });
+    }
+
+    // Verificar se o pet selecionado pertence ao usuário
+    const selectedPet = userPets.pets.find(pet => pet.id === petId);
+    if (!selectedPet) {
+      return res.status(404).json({ success: false, message: 'Pet não encontrado ou não pertence ao usuário.' });
+    }
+
+    if (cancelpass || cancelmoto) {
+      return res.status(400).json({ message: 'Pedido cancelado.' });
+    }
     const pedido = await prisma.pedido.create({
       data: {
         preco,
@@ -26,16 +46,34 @@ pedido.post('/pedido', async (req, res) => {
         localizacao_atual_lat,
         user: {
             connect: {
-              id : userId
+              id : Number(userId)
+              
             }
           },
+            
           motorista: {
             connect: {
-              id: motoristaId
-            }
+              id: Number(motoristaId)
+            },
+      },
+      pets:{
+        connect:{
+          id: Number(petId)
+        }
       }
+    
+    },
+    include:{
+      user:{
+        include:{pets: true}
+      },
+
+      motorista:{
+        include:{carro: true}}
     }
-    });
+  }
+    );
+    
     res.json(pedido);
   } catch (error) {
     console.error(error);
@@ -43,15 +81,15 @@ pedido.post('/pedido', async (req, res) => {
   }
 });
 
-pedido.post('/localizacao/:id', async (req, res) => {
+pedido.post('/localizacao/:userId', authToken, async (req, res) => {
   
   try {
 
-    const {id} = req.params;
+    const {userId} = req.params;
   const { lat, lng } = req.body;
     const user = await prisma.pedido.update({
       where: { 
-        id: Number(id) 
+        id: Number(userId) 
       },
       data: { 
         localizacao_atual: lat,

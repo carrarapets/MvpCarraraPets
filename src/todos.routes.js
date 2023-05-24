@@ -10,9 +10,8 @@ const SendEmails = require("./serverEmail");
 const bcrypt = require('bcrypt');
 
 const prisma = new PrismaClient();
-const email = new SendEmails();
-
-        
+const sendMail = new SendEmails();
+const secret = process.env.SECRET;       
 
 todosRoutes.post('/createuser', async (req, res) => {
    // const { nome, sobrenome, cpf, celular, email, password, rg, foto } = req.body;
@@ -34,7 +33,7 @@ todosRoutes.post('/createuser', async (req, res) => {
         },   
     }
     );
-        const sendMail = new SendEmails();
+        
         sendMail.enviarEmailVerificacao(criaUsuario.email,"123456");
      return res.status(201).json(criaUsuario); }
 
@@ -202,9 +201,10 @@ todosRoutes.delete("/deleteuser/:id",authToken, async(request, response)=>{
     
 });
 // ROTAS USUARIO COM PET
-todosRoutes.post("/createpet", authToken, async(request, response)=>{
+todosRoutes.post("/createpet/:userId", authToken, async(request, response)=>{
     try {
-        const {userId, nome, peso, comportamento, foto, sexo, raca, especia}= request.body;
+        const { nome, peso, comportamento, foto, sexo, raca, especia}= request.body;
+        const{userId}= request.params;
 const criaPet = await prisma.pet.create({
     data:{
   nome,          
@@ -216,7 +216,7 @@ const criaPet = await prisma.pet.create({
   especia, 
   user: {
     connect: {
-      id : userId
+      id : Number(userId)
     },
   },
 
@@ -228,7 +228,7 @@ return response.status(200).json(criaPet);
     }
 
 });
-todosRoutes.get("/getpet/:id",  async (request, response) =>{
+todosRoutes.get("/getpet/:userId", authToken,  async (request, response) =>{
 
     try {
         const {userId} = request.body;
@@ -238,13 +238,13 @@ todosRoutes.get("/getpet/:id",  async (request, response) =>{
     }
 
  });
-  return reponse.status(200).json(mostraPet);
+  return response.status(200).json(mostraPet);
     } catch (error) {
-        return reponse.status(200).json({message: error.message});
+        return response.status(200).json({message: error.message});
     }
 });
 
-todosRoutes.post("/updatepet/:id",  async(request, response)=>{
+todosRoutes.post("/updatepet/:userId", authToken,  async(request, response)=>{
     try {
         const {userId}= request.params;
 const criaPet = await prisma.pet.create({
