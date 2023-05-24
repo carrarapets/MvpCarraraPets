@@ -87,7 +87,7 @@ model Motorista {
   ant_criminal      String?
   celular           String?
   avaliacao         String?
-  validade_cnh      DateTime  @unique
+  validade_cnh      DateTime  
   detalhes_corridas String?
   pedidos           Pedido[]
   carro             Carro[]
@@ -107,7 +107,7 @@ model Carro {
   id          Int       @id @default(autoincrement())
   placa       String?   @unique
   modelo      String?
-  marca       String?   @unique
+  marca       String?   
   renavam     String?   @unique
   cor         String?
   motorista   Motorista @relation(fields: [motoristaId], references: [id])
@@ -130,7 +130,6 @@ model Rota {
   id        Int      @id @default(autoincrement())
   latitude  Float
   longitude Float
-  teste String
   pedido    Pedido   @relation(fields: [pedidoId], references: [id])
   pedidoId  Int
   user      User     @relation(fields: [userId], references: [id])

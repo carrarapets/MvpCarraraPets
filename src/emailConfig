@@ -1,18 +1,17 @@
-
 require('dotenv').config();
 const nodemailer = require('nodemailer');
 
 
 
-
+const nodemailer = require('nodemailer');
 
 class SendEmails {
   constructor() {
     this.transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: "carrarapets@gmail.com",
-        pass: "absfbfjzngnldxkm"
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
       }
     });
   }
@@ -20,7 +19,7 @@ class SendEmails {
   async enviarEmailVerificacao(destinatario, codigoVerificacao) {
     try {
       const info = await this.transporter.sendMail({
-        from: "carrarapets@gmail.com",
+        from: process.env.EMAIL_USER,
         to: destinatario,
         subject: 'Verificação de e-mail',
         text: `Seu código de verificação: ${codigoVerificacao}`
@@ -47,4 +46,3 @@ class SendEmails {
 }
 
 module.exports = SendEmails;
-
