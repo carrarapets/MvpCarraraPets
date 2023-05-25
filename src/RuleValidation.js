@@ -159,6 +159,39 @@ async function emailAlreadyExistMotorista(email) {
     } catch (error) {
       throw error;}
     }
+
+  function validateCNH(CNH) {
+    const numeroLimpo = CNH.replace(/\D/g, '');
+  
+    if (numeroLimpo.length !== 11) {
+      return false;
+    }
+  
+    if (/^(\d)\1+$/.test(numeroLimpo)) {
+      return false;
+    }
+  
+    let soma = 0;
+    let peso = 2;
+  
+    for (let i = numeroLimpo.length - 1; i >= 0; i--) {
+      soma += parseInt(numeroLimpo.charAt(i)) * peso;
+      peso++;
+  
+      if (peso > 9) {
+        peso = 2;
+      }
+    }
+  
+    const digitoVerificador = soma % 11;
+
+    if (digitoVerificador === 0 || digitoVerificador === 1) {
+      return parseInt(numeroLimpo.charAt(9)) === 0;
+    } else {
+      return parseInt(numeroLimpo.charAt(9)) === 11 - digitoVerificador;
+    }
+  }
+
 exports.validationEmail = validationEmail;
 exports.emailAlreadyExist = emailAlreadyExist;
 exports.validationPhone = validationPhone;
@@ -170,3 +203,4 @@ exports.RgAlreadyExist = RgAlreadyExist;
 exports.CNHAlreadyExistMotorista = CNHAlreadyExistMotorista;
 exports.phoneAlreadyExistMotorista = phoneAlreadyExistMotorista;
 exports.emailAlreadyExistMotorista = emailAlreadyExistMotorista;
+exports.validateCNH = validateCNH;
