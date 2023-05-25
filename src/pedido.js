@@ -11,15 +11,16 @@ app.use(express.json());
 
 
 
-pedido.post('/pedido/:userId',authToken, async (req, res) => {
+pedido.post('/pedido/:userId', authToken, async (req, res) => {
   try {
-    const {userId}= request.params;
-    const { preco, final, inicio, cancelpass, cancelmoto, destino, destino_lat, localizacao_atual, localizacao_atual_lat, motoristaId, petId } = req.body;
+    const { userId } = req.params;
+    const { preco, final, inicio, cancelpass, cancelmoto, destino,destino_lat,localizacao_atual_lat, localizacao_atual, motoristaId, petId } = req.body;
 
     const userPets = await prisma.user.findUnique({
-      where:{id: Number(userId)},
-      include:{pets:true}
+      where: { id: Number(userId) },
+      include: { pets: true },
     });
+
     if (!userPets) {
       return res.status(404).json({ success: false, message: 'Usuário não encontrado ou não possui pets.' });
     }
@@ -33,6 +34,7 @@ pedido.post('/pedido/:userId',authToken, async (req, res) => {
     if (cancelpass || cancelmoto) {
       return res.status(400).json({ message: 'Pedido cancelado.' });
     }
+
     const pedido = await prisma.pedido.create({
       data: {
         preco,
@@ -45,35 +47,35 @@ pedido.post('/pedido/:userId',authToken, async (req, res) => {
         localizacao_atual,
         localizacao_atual_lat,
         user: {
-            connect: {
-              id : Number(userId)
-              
-            }
-          },
-            
-          motorista: {
-            connect: {
-              id: Number(motoristaId)
-            },
+          connect: {
+            id: Number(userId)
+          }
+        },
+        motorista: {
+          connect: {
+            id: Number(motoristaId)
+          }
+        },
+        pet: {
+          connect: {
+            id: Number(petId)
+          }
+        }
       },
-      pets:{
-        connect:{
-          id: Number(petId)
+      include: {
+        user: {
+          include: {
+            pets: true
+          }
+        },
+        motorista: {
+          include: {
+            carro: true
+          }
         }
       }
-    
-    },
-    include:{
-      user:{
-        include:{pets: true}
-      },
+    });
 
-      motorista:{
-        include:{carro: true}}
-    }
-  }
-    );
-    
     res.json(pedido);
   } catch (error) {
     console.error(error);
@@ -81,32 +83,52 @@ pedido.post('/pedido/:userId',authToken, async (req, res) => {
   }
 });
 
-pedido.post('/localizacao/:userId', authToken, async (req, res) => {
-  
+pedido.put('/localizacao/:pedidoId', authToken, async (req, res) => {
   try {
+    const { pedidoId } = req.params;
+    const { lat, lng } = req.body;
 
-    const {userId} = req.params;
-  const { lat, lng } = req.body;
-    const user = await prisma.pedido.update({
-      where: { 
-        id: Number(userId) 
+    const pedido = await prisma.pedido.findUnique({
+      where: {
+        id: Number(pedidoId)
       },
-      data: { 
-        localizacao_atual: lat,
-        localizacao_atual_lat: lng
-
-      },
-      select:{
-        localizacao_atual: true,
-        localizacao_atual_lat: true
+      include: {
+        user: true,
+        rotas: true
       }
     });
-    res.json(user);
+
+    if (!pedido) {
+      return res.status(404).json({ success: false, message: 'Pedido não encontrado.' });
+    }
+
+    const userId = pedido.user.id;
+
+    // Se já existir uma rota para esse usuário, atualize-a
+    if (pedido.rotas.length > 0) {
+      const rotaAtualizada = await prisma.rota.update({
+        where: { id: pedido.rotas[0].id },
+        data: { latitude: lat, longitude: lng }
+      });
+
+      res.json(rotaAtualizada);
+    } else {
+      // Caso contrário, crie uma nova rota
+      const novaRota = await prisma.rota.create({
+        data: {
+          latitude: lat,
+          longitude: lng,
+          user: { connect: { id: userId } },
+          pedido: { connect: { id: Number(pedidoId) } }
+        }
+      });
+
+      res.json(novaRota);
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Erro ao atualizar a localização do usuário.' });
   }
 });
-
 
 module.exports = pedido;

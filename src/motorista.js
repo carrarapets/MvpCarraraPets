@@ -128,7 +128,7 @@ motorista.post("/createmotorista" ,async (req, res)=>{
 motorista.post("/createcar/:motoristaId",authToken, async(request, response)=>{
     try {
 
-        const {placa, modelo, marca, renavam, cor}= request.params;
+        const {placa, modelo, marca, renavam, cor}= request.body;
         const{motoristaId}= request.params;
 const criaCarro = await prisma.carro.create({
     data:{
