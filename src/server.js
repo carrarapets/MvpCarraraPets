@@ -5,6 +5,7 @@ const express = require("express");
 const nodemailer = require('nodemailer');
 const todosRoutes = require("./todos.routes");
 const pedido = require("./pedido");
+const motorista = require("./motorista");
 
 const cors = require("cors")
 const pg = require('pg');
