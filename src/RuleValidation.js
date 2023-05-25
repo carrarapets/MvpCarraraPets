@@ -19,12 +19,8 @@ async function emailAlreadyExist(email) {
         email: email,
       },
     });
+    return existingEmail ? true : false;
 
-    if (existingEmail) {
-      return false;
-    } else {
-      return true;
-    }
   } catch (error) {
     throw error;}
   }
@@ -59,11 +55,8 @@ async function phoneAlreadyExist(celular) {
       },
     });
 
-    if (existingFone) {
-      return false;
-    } else {
-      return true;
-    }
+    return existingFone ? true : false;
+    
   } catch (error) {
     throw error;}
   }
@@ -97,11 +90,8 @@ async function CpfAlreadyExist(cpf) {
       },
     });
 
-    if (existingUser) {
-      return false;
-    } else {
-      return true;
-    }
+    return existingUser ? true : false;
+
   } catch (error) {
     throw error;}
   }
@@ -122,11 +112,8 @@ async function RgAlreadyExist(rg) {
       },
     });
 
-    if (existingRg) {
-      return false;
-    } else {
-      return true;
-    }
+    return existingRg ? true : false;
+
   } catch (error) {
     throw error;}
   }
