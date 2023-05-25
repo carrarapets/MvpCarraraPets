@@ -22,24 +22,24 @@ todosRoutes.post('/createuser', async (req, res) => {
     const celularValidate = RuleValidation.validationPhone(celular);
     const documentCpfValidate = RuleValidation.validationCpfDocument(cpf);
     const documentRgValidate = RuleValidation.validationRgDocument(rg); 
-        if (emailValidate === false) {
-              throw new Error("Email Inválido!")
-          //           }
-          //           else if (emailAlready == false) {
-          //             throw new Error("Email já cadastrado!")
-          } else if (celularValidate === false) {
-              throw new Error("Celular Inválido!")
-              //            } else if (celularAlready == false) {
-              //                  throw new Error("Celular já cadastrado!")
-          } else if (documentCpfValidate === false) {
-              throw new Error("CPF Inválido!")
-              //                                } else if (documentCpfAlready == false) {
-              //                                throw new Error("CPF já cadastrado!")
-          } else if (documentRgValidate === false) {
-              throw new Error("RG Inválido!")
-              //                                } else if (documentRgAlready == false) {
-              //                                throw new Error("CPF já cadastrado!")
-          } else {
+    if (emailValidate === false) {
+        throw new Error("Email Inválido!")
+    //           }
+    //           else if (emailAlready == false) {
+    //             throw new Error("Email já cadastrado!")
+    } else if (celularValidate === false) {
+        throw new Error("Celular Inválido!")
+        //            } else if (celularAlready == false) {
+        //                  throw new Error("Celular já cadastrado!")
+    } else if (documentCpfValidate === false) {
+        throw new Error("CPF Inválido!")
+        //                                } else if (documentCpfAlready == false) {
+        //                                throw new Error("CPF já cadastrado!")
+    } else if (documentRgValidate === false) {
+        throw new Error("RG Inválido!")
+        //                                } else if (documentRgAlready == false) {
+        //                                throw new Error("CPF já cadastrado!")
+    } else {
     const criaUsuario = await prisma.user.create({
         
         data:{
@@ -54,10 +54,10 @@ todosRoutes.post('/createuser', async (req, res) => {
             valido: false
         },   
     }
-    );}
+    );
         
         sendMail.enviarEmailVerificacao(criaUsuario.email,"123456");
-     return res.status(201).json(criaUsuario); }
+     return res.status(201).json(criaUsuario); }}
 
      catch (error) {
         return res.status(500).json({  message: error.message });
