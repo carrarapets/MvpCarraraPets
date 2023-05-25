@@ -21,7 +21,7 @@ motorista.post("/createmotorista" ,async (req, res)=>{
         const emailValidate = RuleValidation.validationEmail(email);
         const emailAlready = await RuleValidation.emailAlreadyExistMotorista(email);
         const celularValidate = RuleValidation.validationPhone(celular);
-        const celularAlready = await RuleValidation.phoneAlreadyExistMotorista(celular);
+        const cnhValidate = RuleValidation.validateCNH(CNH);
         const CNHAlreadyExist = await RuleValidation.CNHAlreadyExistMotorista(CNH);
         if (emailValidate === false) {
             throw new Error("Email Inválido!")
@@ -29,6 +29,8 @@ motorista.post("/createmotorista" ,async (req, res)=>{
             throw new Error("Email já cadastrado!")
         } else if (celularValidate === false) {
             throw new Error("Celular Inválido!")
+        } else if (cnhValidate === false) {
+            throw new Error("CNH Inválido!")
         } else if (CNHAlreadyExist === true) {
             throw new Error("CNH já cadastrada!")
         } else {
