@@ -21,6 +21,7 @@ todosRoutes.post('/createuser', async (req, res) => {
     const emailValidate = RuleValidation.validationEmail(email);
     const celularValidate = RuleValidation.validationPhone(celular);
     const documentCpfValidate = RuleValidation.validationCpfDocument(cpf);
+    const CpfAlreadyExist = RuleValidation.validationCpfDocument(cpf);
     const documentRgValidate = RuleValidation.validationRgDocument(rg); 
     if (emailValidate === false) {
         throw new Error("Email Inválido!")
@@ -33,8 +34,8 @@ todosRoutes.post('/createuser', async (req, res) => {
         //                  throw new Error("Celular já cadastrado!")
     } else if (documentCpfValidate === false) {
         throw new Error("CPF Inválido!")
-        //                                } else if (documentCpfAlready == false) {
-        //                                throw new Error("CPF já cadastrado!")
+    } else if (CpfAlreadyExist === false) {
+        throw new Error("CPF já cadastrado!")
     } else if (documentRgValidate === false) {
         throw new Error("RG Inválido!")
         //                                } else if (documentRgAlready == false) {
