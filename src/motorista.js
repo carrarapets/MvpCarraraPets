@@ -42,4 +42,157 @@ motorista.post("/createmotorista" ,async (req, res)=>{
         }
       });
 
+
+      motorista.post("/loginmotorista", async(request, response)=>{
+        try {
+            const {email, password}= request.body;
+    
+            const loginMotorista =  await prisma.motorista.findFirst({
+                where:{
+                    email: String(email),
+                   
+    
+                }
+               
+                
+            })
+    
+           
+        if(!loginMotorista){
+            throw new Error("Usuário/Senha incorreto")
+    
+        }
+        const passwordMatch = await bcrypt.compare(password, loginMotorista.password);
+        if(!passwordMatch){
+          return response.status(401).json({error: 'Credenciais inválidas'});
+    
+        }
+    
+        const token = jwt.sign({email:loginMotorista.email}, secret);
+        return response.status(200).json({auth: true, token} );
+    
+        } catch (error) {
+            return response.status(500).json({message: error.message});
+        }
+    
+    });
+
+    motorista.get("/getMotorista/:id" ,authToken, async(request, response)=>{
+        try {
+
+             const {id} = request.params;
+        const lerUsuario = await prisma.motorista.findUnique({
+            where:{
+                id: Number(id)
+            },
+    
+        })
+        return response.status(200).json(lerUsuario);
+        } catch (error) {
+            return response.status(200).json({message: error.message});
+        }
+        
+        
+    });
+
+   motorista.post("/updatemotorista/:id",authToken, async(request, response)=>{
+        try {
+            const{id} = request.params;
+        const atualizaMotorista = await prisma.motorista.update({
+            where:{
+                id: Number(id)
+            },
+            data:{
+                nome,
+                sobrenome,
+                CNH,
+                celular,
+                email,
+                password,
+                valido: true,
+                validade_cnh,
+                ant_criminal, 
+                foto
+                
+            }
+        });
+        return response.status(200).json(atualizaMotorista);
+        } catch (error) {
+            return response.status(200).json({message: error.message});
+        }
+        
+    });
+
+
+    // ROTAS MOTORISTA COM CARRO
+motorista.post("/createcar/:motoristaId",authToken, async(request, response)=>{
+    try {
+
+        const {placa, modelo, marca, renavam, cor}= request.params;
+        const{motoristaId}= request.params;
+const criaCarro = await prisma.carro.create({
+    data:{
+  placa,
+  modelo,
+  marca,
+  renavam,
+  cor,
+  motorista :{
+    connect:{
+        id: Number(motoristaId)
+   
+    },
+  },
+    
+
+
+    
+    }});
+return response.status(200).json(criaCarro);
+    } catch (error) {
+        return response.status(200).json({message: error.message});
+    }
+
+});
+motorista.get("/getcar/:motoristaId",authToken, async (request, response) =>{
+
+    try {
+        const {motoristaId} = request.params;
+ const mostraCarro =  await prisma.carro.findMany({
+    where:{
+        Id: Number(motoristaId)
+    }
+
+ });
+  return response.status(200).json(mostraCarro);
+    } catch (error) {
+        return response.status(200).json({message: error.message});
+    }
+});
+
+motorista.post("/updatecar/:motoristaId",authToken, async(request, response)=>{
+    try {
+        const {motoristaId}= request.params;
+const criaPet = await prisma.carro.create({
+    where:{
+        id: Number(motoristaId)
+
+    },
+    data:{
+        placa,
+        modelo,
+        marca,
+        renavam,
+        cor,  
+    }
+
+    
+});
+return response.status(200).json("Dados Atualizados com sucesso");
+    } catch (error) {
+        return response.status(200).json({message: error.message});
+    }
+
+});
+
 module.exports = motorista

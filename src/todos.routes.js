@@ -100,7 +100,7 @@ todosRoutes.get("/getuser/:id",authToken, async(request, response)=>{
         },
 
     })
-   // const token = jwt.sign({id},process.env.SECRET);
+   
     return response.status(200).json(lerUsuario);
     } catch (error) {
         return response.status(200).json({message: error.message});
