@@ -72,12 +72,21 @@ function validationCpfDocument(cpf) {
 }
 
 async function CpfAlreadyExist(cpf) { 
-    const getUser = await prisma.user.findUnique({
-        where: {
-            cpf: cpf
-          }
-        });
-        return resultado;}
+  try {
+    const existingUser = await prisma.user.findUnique({
+      where: {
+        cpf: cpf,
+      },
+    });
+
+    if (existingUser) {
+      return false;
+    } else {
+      return true;
+    }
+  } catch (error) {
+    throw error;}
+  }
 
 function validationRgDocument(rg) {
     if (rg.length === 9 && isNaN(rg) === false){
