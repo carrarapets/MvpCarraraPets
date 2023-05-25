@@ -176,7 +176,7 @@ motorista.get("/getcar/:motoristaId",authToken, async (request, response) =>{
         const {motoristaId} = request.params;
  const mostraCarro =  await prisma.carro.findUnique({
     where:{
-        Id: Number(motoristaId)
+        id: Number(motoristaId)
     }
 
  });
