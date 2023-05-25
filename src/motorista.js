@@ -200,7 +200,7 @@ motorista.post("/updatecar/:motoristaId",authToken, async(request, response)=>{
         modelo,
         marca,
         renavam,
-        cor,  
+        cor
     }
 
     
