@@ -205,7 +205,7 @@ motorista.post("/updatecar/:motoristaId",authToken, async(request, response)=>{
 
     
 });
-return response.status(200).json(carroAtualizadoDados);
+return response.status(200).json(carroAtualizado);
     } catch (error) {
         return response.status(200).json({message: error.message});
     }
