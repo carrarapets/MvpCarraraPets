@@ -29,8 +29,6 @@ motorista.post("/createmotorista" ,async (req, res)=>{
             throw new Error("Email já cadastrado!")
         } else if (celularValidate === false) {
             throw new Error("Celular Inválido!")
-        } else if (celularAlready === true) {
-            throw new Error("Celular já cadastrado!")
         } else if (CNHAlreadyExist === true) {
             throw new Error("CNH já cadastrada!")
         } else {
