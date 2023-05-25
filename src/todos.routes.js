@@ -28,19 +28,19 @@ todosRoutes.post('/createuser', async (req, res) => {
     const documentRgAlready = RuleValidation.RgAlreadyExist(rg); 
     if (emailValidate === false) {
         throw new Error("Email Inválido!")
-    } else if (emailAlready == false) {
+    } else if (emailAlready === true) {
         throw new Error("Email já cadastrado!")
     } else if (celularValidate === false) {
         throw new Error("Celular Inválido!")
-    } else if (celularAlready == false) {
+    } else if (celularAlready === true) {
         throw new Error("Celular já cadastrado!")
     } else if (documentCpfValidate === false) {
         throw new Error("CPF Inválido!")
-    } else if (CpfAlreadyExist === false) {
+    } else if (CpfAlreadyExist === true) {
         throw new Error("CPF já cadastrado!")
     } else if (documentRgValidate === false) {
         throw new Error("RG Inválido!")
-    } else if (documentRgAlready == false) {
+    } else if (documentRgAlready === true) {
         throw new Error("RG já cadastrado!")
     } else {
     const criaUsuario = await prisma.user.create({
