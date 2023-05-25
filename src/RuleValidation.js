@@ -135,7 +135,7 @@ async function CNHAlreadyExistMotorista(CNH) {
 
 async function phoneAlreadyExistMotorista(celular) { 
   try {
-    const existingFone = await prisma.motorista.findMany({
+    const existingFone = await prisma.Motorista.findMany({
       where: {
         celular: celular,
       },
