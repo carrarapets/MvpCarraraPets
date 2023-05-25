@@ -141,7 +141,7 @@ todosRoutes.get("/", (req, res) =>{
 todosRoutes.post("/updateuser/:id", authToken, async(request, response)=>{
     try {
         const { id } = request.params;
-        const { nome, sobrenome, cpf, celular, email, password, rg, foto} = request.body;
+        const { nome, sobrenome, celular, password, foto} = request.body;
             const atualizaUsuario = await prisma.user.update({
                 where: {
                     id: Number(id)
@@ -149,12 +149,9 @@ todosRoutes.post("/updateuser/:id", authToken, async(request, response)=>{
                 data: {
                     nome,
                     sobrenome,
-                    cpf,
                     celular,
-                    email,
                     password,
                     valido: true,
-                    rg,
                     foto
             
                 }
@@ -236,33 +233,31 @@ todosRoutes.get("/getpets/:userId", authToken, async (request, response) => {
       return response.status(500).json({ message: error.message });
     }
   });
-todosRoutes.post("/updatepet/:userId", authToken,  async(request, response)=>{
+  todosRoutes.post("/updatepet/:userId", authToken, async (request, response) => {
     try {
-        const {userId}= request.params;
-        const { nome, peso, comportamento, foto, sexo, raca, especia} = request.body;
-const criaPet = await prisma.pet.create({
-    where:{
-        id: Number(userId)
-
-    },
-    data:{
-  nome,          
-  peso,          
-  comportamento, 
-  foto,          
-  sexo,          
-  raca,          
-  especia,      
-    }
-
-    
-});
-return response.status(200).json("Dados Atualizados com sucesso");
+      const { userId } = request.params;
+      const { nome, peso, comportamento, foto, sexo, raca, especia } = request.body;
+  
+      const criaPet = await prisma.pet.create({
+        data: {
+          nome,
+          peso,
+          comportamento,
+          foto,
+          sexo,
+          raca,
+          especia,
+          user: {
+            connect: { id: Number(userId) }
+          }
+        }
+      });
+  
+      return response.status(200).json("Dados Atualizados com sucesso");
     } catch (error) {
-        return response.status(500).json({message: error.message});
+      return response.status(500).json({ message: error.message });
     }
-
-});
+  });
 //ROTAS COM PEDIDO SELECIONANDO O PET 
 
 module.exports = todosRoutes;
