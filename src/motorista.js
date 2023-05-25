@@ -189,18 +189,17 @@ motorista.get("/getcar/:motoristaId",authToken, async (request, response) =>{
 motorista.post("/updatecar/:motoristaId",authToken, async(request, response)=>{
     try {
         const {motoristaId}= request.params;
-        const { placa, modelo, marca, renavam, cor } = request.body;
     const carroAtualizado = await prisma.carro.create({
     where:{
         id: Number(motoristaId)
 
     },
     data:{
-        placa: placa,
-        modelo: modelo,
-        marca: marca,
-        renavam: renavam,
-        cor: cor
+        placa,
+        modelo,
+        marca,
+        renavam,
+        cor
     }
 
     
