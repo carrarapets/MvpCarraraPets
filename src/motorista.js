@@ -196,11 +196,11 @@ motorista.post("/updatecar/:motoristaId",authToken, async(request, response)=>{
 
     },
     data:{
-        placa,
-        modelo,
-        marca,
-        renavam,
-        cor
+        placa: placa,
+        modelo: modelo,
+        marca: marca,
+        renavam: renavam,
+        cor: cor
     }
 
     
