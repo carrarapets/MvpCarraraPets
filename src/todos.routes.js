@@ -19,13 +19,13 @@ todosRoutes.post('/createuser', async (req, res) => {
     const { nome, sobrenome, cpf, celular, email, password, rg, foto } = req.body;    
     const hashedPassword = await bcrypt.hash(password, 10);
     const emailValidate = RuleValidation.validationEmail(email);
-    const emailAlready = RuleValidation.emailAlreadyExist(email);
+    const emailAlready = await RuleValidation.emailAlreadyExist(email);
     const celularValidate = RuleValidation.validationPhone(celular);
-    const celularAlready = RuleValidation.phoneAlreadyExist(celular);
+    const celularAlready = await RuleValidation.phoneAlreadyExist(celular);
     const documentCpfValidate = RuleValidation.validationCpfDocument(cpf);
-    const CpfAlreadyExist = RuleValidation.CpfAlreadyExist(cpf);
+    const CpfAlreadyExist = await RuleValidation.CpfAlreadyExist(cpf);
     const documentRgValidate = RuleValidation.validationRgDocument(rg); 
-    const documentRgAlready = RuleValidation.RgAlreadyExist(rg); 
+    const documentRgAlready = await RuleValidation.RgAlreadyExist(rg); 
     if (emailValidate === false) {
         throw new Error("Email Inválido!")
     } else if (emailAlready === true) {
