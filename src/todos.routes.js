@@ -259,7 +259,7 @@ const criaPet = await prisma.pet.create({
 });
 return response.status(200).json("Dados Atualizados com sucesso");
     } catch (error) {
-        return response.status(200).json({message: error.message});
+        return response.status(500).json({message: error.message});
     }
 
 });
