@@ -21,7 +21,7 @@ todosRoutes.post('/createuser', async (req, res) => {
     const emailValidate = RuleValidation.validationEmail(email);
     const emailAlready = await RuleValidation.emailAlreadyExist(email);
     const celularValidate = RuleValidation.validationPhone(celular);
-    const celularAlready = await RuleValidation.phoneAlreadyExist(celular);
+    //const celularAlready = await RuleValidation.phoneAlreadyExist(celular);
     const documentCpfValidate = RuleValidation.validationCpfDocument(cpf);
     const CpfAlreadyExist = await RuleValidation.CpfAlreadyExist(cpf);
     const documentRgValidate = RuleValidation.validationRgDocument(rg); 
@@ -32,9 +32,7 @@ todosRoutes.post('/createuser', async (req, res) => {
         throw new Error("Email já cadastrado!")
     } else if (celularValidate === false) {
         throw new Error("Celular Inválido!")
-    } else if (celularAlready === true) {
-        throw new Error("Celular já cadastrado!")
-    } else if (documentCpfValidate === false) {
+    }  else if (documentCpfValidate === false) {
         throw new Error("CPF Inválido!")
     } else if (CpfAlreadyExist === true) {
         throw new Error("CPF já cadastrado!")
