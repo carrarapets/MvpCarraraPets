@@ -21,7 +21,7 @@ todosRoutes.post('/createuser', async (req, res) => {
     const emailValidate = RuleValidation.validationEmail(email);
     const celularValidate = RuleValidation.validationPhone(celular);
     const documentCpfValidate = RuleValidation.validationCpfDocument(cpf);
-    const CpfAlreadyExist = RuleValidation.validationCpfDocument(cpf);
+    const CpfAlreadyExist = RuleValidation.CpfAlreadyExist(cpf);
     const documentRgValidate = RuleValidation.validationRgDocument(rg); 
     if (emailValidate === false) {
         throw new Error("Email Inválido!")
