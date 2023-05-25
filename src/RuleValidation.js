@@ -53,7 +53,7 @@ function validationPhone(celular) {
 
 async function phoneAlreadyExist(celular) { 
   try {
-    const existingFone = await prisma.user.findUnique({
+    const existingFone = await prisma.user.findMany({
       where: {
         celular: celular,
       },
@@ -121,7 +121,7 @@ async function RgAlreadyExist(rg) {
         rg: rg,
       },
     });
-    
+
     if (existingRg) {
       return false;
     } else {
