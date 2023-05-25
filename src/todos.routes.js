@@ -19,27 +19,29 @@ todosRoutes.post('/createuser', async (req, res) => {
     const { nome, sobrenome, cpf, celular, email, password, rg, foto } = req.body;    
     const hashedPassword = await bcrypt.hash(password, 10);
     const emailValidate = RuleValidation.validationEmail(email);
+    const emailAlready = RuleValidation.emailAlreadyExist(email);
     const celularValidate = RuleValidation.validationPhone(celular);
+    const celularAlready = RuleValidation.phoneAlreadyExist(celular);
     const documentCpfValidate = RuleValidation.validationCpfDocument(cpf);
     const CpfAlreadyExist = RuleValidation.CpfAlreadyExist(cpf);
     const documentRgValidate = RuleValidation.validationRgDocument(rg); 
+    const documentRgAlready = RuleValidation.RgAlreadyExist(rg); 
     if (emailValidate === false) {
         throw new Error("Email Inválido!")
-    //           }
-    //           else if (emailAlready == false) {
-    //             throw new Error("Email já cadastrado!")
+    } else if (emailAlready == false) {
+        throw new Error("Email já cadastrado!")
     } else if (celularValidate === false) {
         throw new Error("Celular Inválido!")
-        //            } else if (celularAlready == false) {
-        //                  throw new Error("Celular já cadastrado!")
+    } else if (celularAlready == false) {
+        throw new Error("Celular já cadastrado!")
     } else if (documentCpfValidate === false) {
         throw new Error("CPF Inválido!")
     } else if (CpfAlreadyExist === false) {
         throw new Error("CPF já cadastrado!")
     } else if (documentRgValidate === false) {
         throw new Error("RG Inválido!")
-        //                                } else if (documentRgAlready == false) {
-        //                                throw new Error("CPF já cadastrado!")
+    } else if (documentRgAlready == false) {
+        throw new Error("RG já cadastrado!")
     } else {
     const criaUsuario = await prisma.user.create({
         
@@ -141,34 +143,6 @@ todosRoutes.get("/", (req, res) =>{
 todosRoutes.post("/updateuser/:id", authToken, async(request, response)=>{
     try {
         const { id } = request.params;
-        
-        const emailValidate = RuleValidation.validationEmail(email);
-  //      const emailAlready = RuleValidation.emailAlreadyExist(email);
-        const celularValidate = RuleValidation.validationPhone(celular);
-        //  const celularAlready = RuleValidation.phoneAlreadyExist(celular);
-        const documentCpfValidate = RuleValidation.validationCpfDocument(cpf);
-        //  const documentCpfAlready = RuleValidation.CpfAlreadyExist(cpf);    
-        const documentRgValidate = RuleValidation.validationRgDocument(rg);
-        //  const documentRgAlready = RuleValidation.RgAlreadyExist(rg);   
-        
-        if (emailValidate === false) {
-            throw new Error("Email Inválido!")
-        //           }
-        //           else if (emailAlready == false) {
-        //             throw new Error("Email já cadastrado!")
-        } else if (celularValidate === false) {
-            throw new Error("Celular Inválido!")
-            //            } else if (celularAlready == false) {
-            //                  throw new Error("Celular já cadastrado!")
-        } else if (documentCpfValidate === false) {
-            throw new Error("CPF Inválido!")
-            //                                } else if (documentCpfAlready == false) {
-            //                                throw new Error("CPF já cadastrado!")
-        } else if (documentRgValidate === false) {
-            throw new Error("RG Inválido!")
-            //                                } else if (documentRgAlready == false) {
-            //                                throw new Error("CPF já cadastrado!")
-        } else {
             const atualizaUsuario = await prisma.user.update({
                 where: {
                     id: Number(id)
@@ -188,7 +162,6 @@ todosRoutes.post("/updateuser/:id", authToken, async(request, response)=>{
             });
 
             return response.status(200).json(atualizaUsuario);
-        }
     } catch (error) {
         return response.status(200).json({message: error.message});
     }

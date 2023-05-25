@@ -13,12 +13,21 @@ function validationEmail(email) {
 }
 
 async function emailAlreadyExist(email) {
-    const resultado = await prisma.usuario.findUnique({
+  try {
+    const existingEmail = await prisma.user.findUnique({
       where: {
-        email: email
-      }
+        email: email,
+      },
     });
-    return resultado;}
+
+    if (existingEmail) {
+      return false;
+    } else {
+      return true;
+    }
+  } catch (error) {
+    throw error;}
+  }
 
 function validationPhone(celular) {
     if (isNaN(celular) === true) return false;
@@ -43,12 +52,21 @@ function validationPhone(celular) {
 }
 
 async function phoneAlreadyExist(celular) { 
-    const resultado = await prisma.usuario.findUnique({
-        where: {
-          celular: celular
-        }
-      });
-      return resultado;}
+  try {
+    const existingFone = await prisma.user.findUnique({
+      where: {
+        celular: celular,
+      },
+    });
+
+    if (existingFone) {
+      return false;
+    } else {
+      return true;
+    }
+  } catch (error) {
+    throw error;}
+  }
 
 function validationCpfDocument(cpf) {
     var Soma;
@@ -97,13 +115,21 @@ function validationRgDocument(rg) {
 }
 
 async function RgAlreadyExist(rg) { 
-const getUser = await prisma.user.findUnique({
-    where: {
-        rg: rg
-      }
+  try {
+    const existingRg = await prisma.user.findUnique({
+      where: {
+        rg: rg,
+      },
     });
-    return resultado;}
-
+    
+    if (existingRg) {
+      return false;
+    } else {
+      return true;
+    }
+  } catch (error) {
+    throw error;}
+  }
 
 exports.validationEmail = validationEmail;
 exports.emailAlreadyExist = emailAlreadyExist;
