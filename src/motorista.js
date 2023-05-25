@@ -1,15 +1,17 @@
-const express = require('express');
-const { PrismaClient } = require('@prisma/client');
-const authToken = require('./authToken');
-const bcrypt = require('bcrypt');
-const prisma = new PrismaClient();
-const app = express();
+const express = require("express")
+const RuleValidation = require('./RuleValidation')
+const jwt = require('jsonwebtoken');
 const motorista = express.Router();
-app.use(express.json());
+const {PrismaClient} = require("@prisma/client");
+const { equal, ok } = require("assert");
+const authToken = require("./authToken");
+const ConfigServerEmail = require("./serverEmail");
+const SendEmails = require("./serverEmail");
+const bcrypt = require('bcrypt');
 
-
+const prisma = new PrismaClient();
 const sendMail = new SendEmails();
-const secret = process.env.SECRET;
+const secret = process.env.SECRET;   
 
 motorista.post("/createmotorista" ,async (req, res)=>{
     try {
