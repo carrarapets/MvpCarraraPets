@@ -118,6 +118,47 @@ async function RgAlreadyExist(rg) {
     throw error;}
   }
 
+
+async function CNHAlreadyExistMotorista(CNH) { 
+    try {
+        const existingUser = await prisma.motorista.findUnique({
+          where: {
+            CNH: CNH,
+          },
+        });
+    
+        return existingUser ? true : false;
+    
+      } catch (error) {
+        throw error;}
+      }
+
+async function phoneAlreadyExistMotorista(celular) { 
+  try {
+    const existingFone = await prisma.motorista.findMany({
+      where: {
+        celular: celular,
+      },
+    });
+
+    return existingFone ? true : false;
+    
+  } catch (error) {
+    throw error;}
+  }
+
+async function emailAlreadyExistMotorista(email) {
+    try {
+      const existingEmail = await prisma.motorista.findUnique({
+        where: {
+          email: email,
+        },
+      });
+      return existingEmail ? true : false;
+  
+    } catch (error) {
+      throw error;}
+    }
 exports.validationEmail = validationEmail;
 exports.emailAlreadyExist = emailAlreadyExist;
 exports.validationPhone = validationPhone;
@@ -126,3 +167,6 @@ exports.validationCpfDocument = validationCpfDocument;
 exports.CpfAlreadyExist = CpfAlreadyExist;
 exports.validationRgDocument = validationRgDocument;
 exports.RgAlreadyExist = RgAlreadyExist;
+exports.CNHAlreadyExistMotorista = CNHAlreadyExistMotorista;
+exports.phoneAlreadyExistMotorista = phoneAlreadyExistMotorista;
+exports.emailAlreadyExistMotorista = emailAlreadyExistMotorista;
