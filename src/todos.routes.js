@@ -228,22 +228,19 @@ return response.status(200).json(criaPet);
     }
 
 });
-todosRoutes.get("/getpet/:userId", authToken,  async (request, response) =>{
-
+todosRoutes.get("/getpets/:userId", authToken, async (request, response) => {
     try {
-        const {userId} = request.body;
- const mostraPet =  await prisma.pet.findMany({
-    where:{
-        Id: userId
-    }
-
- });
-  return response.status(200).json(mostraPet);
+      const { userId } = request.params;
+      const pets = await prisma.pet.findMany({
+        where: {
+          userId: Number(userId)
+        }
+      });
+      return response.status(200).json(pets);
     } catch (error) {
-        return response.status(200).json({message: error.message});
+      return response.status(500).json({ message: error.message });
     }
-});
-
+  });
 todosRoutes.post("/updatepet/:userId", authToken,  async(request, response)=>{
     try {
         const {userId}= request.params;

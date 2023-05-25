@@ -93,8 +93,7 @@ pedido.put('/localizacao/:pedidoId', authToken, async (req, res) => {
         id: Number(pedidoId)
       },
       include: {
-        user: true,
-        rotas: true
+        user: { include: { rotas: true } }
       }
     });
 
@@ -104,10 +103,10 @@ pedido.put('/localizacao/:pedidoId', authToken, async (req, res) => {
 
     const userId = pedido.user.id;
 
-    // Se já existir uma rota para esse usuário, atualize-a
-    if (pedido.rotas.length > 0) {
+    // Se já existir uma rota para esse pedido, atualize-a
+    if (pedido.rota) {
       const rotaAtualizada = await prisma.rota.update({
-        where: { id: pedido.rotas[0].id },
+        where: { id: pedido.rota.id },
         data: { latitude: lat, longitude: lng }
       });
 
@@ -130,5 +129,6 @@ pedido.put('/localizacao/:pedidoId', authToken, async (req, res) => {
     res.status(500).json({ error: 'Erro ao atualizar a localização do usuário.' });
   }
 });
+
 
 module.exports = pedido;
