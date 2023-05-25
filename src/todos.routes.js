@@ -141,7 +141,7 @@ todosRoutes.get("/", (req, res) =>{
 todosRoutes.post("/updateuser/:id", authToken, async(request, response)=>{
     try {
         const { id } = request.params;
-        const { nome, sobrenome, cpf, celular, email, password, rg, foto} = req.body;
+        const { nome, sobrenome, cpf, celular, email, password, rg, foto} = request.body;
             const atualizaUsuario = await prisma.user.update({
                 where: {
                     id: Number(id)
@@ -239,7 +239,7 @@ todosRoutes.get("/getpets/:userId", authToken, async (request, response) => {
 todosRoutes.post("/updatepet/:userId", authToken,  async(request, response)=>{
     try {
         const {userId}= request.params;
-        const { nome, peso, cpf, comportamento, foto, sexo, raca, especia} = req.body;
+        const { nome, peso, comportamento, foto, sexo, raca, especia} = request.body;
 const criaPet = await prisma.pet.create({
     where:{
         id: Number(userId)
