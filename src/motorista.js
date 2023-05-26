@@ -186,28 +186,29 @@ motorista.get("/getcar/:motoristaId",authToken, async (request, response) =>{
     }
 });
 
-motorista.post("/updatecar/:motoristaId",authToken, async(request, response)=>{
+motorista.post("/updatecar/:motoristaId", authToken, async (request, response) => {
     try {
-        const {motoristaId}= request.params;
-        const { placa, modelo, marca, renavam, cor } = request.body;
-    const carroAtualizado = await prisma.carro.update({
-    data:{
-        placa,
-        modelo,
-        marca,
-        renavam,
-        cor,          
-        motorista: {
+      const { motoristaId } = request.params;
+      const { placa, modelo, marca, renavam, cor } = request.body;
+  
+      const carroAtualizado = await prisma.carro.update({
+        where: { id: Number(motoristaId) }, // Condição de filtragem para encontrar o carro específico a ser atualizado
+        data: {
+          placa,
+          modelo,
+          marca,
+          renavam,
+          cor,
+          motorista: {
             connect: { id: Number(motoristaId) }
           }
         }
       });
-
-return response.status(200).json(carroAtualizado);
+  
+      return response.status(200).json(carroAtualizado);
     } catch (error) {
-        return response.status(200).json({message: error.message});
+      return response.status(500).json({ message: error.message });
     }
-
-});
+  });
 
 module.exports = motorista
