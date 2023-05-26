@@ -114,6 +114,7 @@ motorista.post("/createmotorista" ,async (req, res)=>{
    motorista.post("/updatemotorista/:id",authToken, async(request, response)=>{
         try {
             const{id} = request.params;
+            const { nome, sobrenome, celular, password, validade_cnh, ant_criminal, foto} = request.body;
         const atualizaMotorista = await prisma.motorista.update({
             where:{
                 id: Number(id)
@@ -121,9 +122,7 @@ motorista.post("/createmotorista" ,async (req, res)=>{
             data:{
                 nome,
                 sobrenome,
-                CNH,
                 celular,
-                email,
                 password,
                 valido: true,
                 validade_cnh,
