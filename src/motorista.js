@@ -189,21 +189,20 @@ motorista.get("/getcar/:motoristaId",authToken, async (request, response) =>{
 motorista.post("/updatecar/:motoristaId",authToken, async(request, response)=>{
     try {
         const {motoristaId}= request.params;
-    const carroAtualizado = await prisma.carro.create({
-    where:{
-        id: Number(motoristaId)
-
-    },
+        const { placa, modelo, marca, renavam, cor } = request.body;
+    const carroAtualizado = await prisma.carro.update({
     data:{
         placa,
         modelo,
         marca,
         renavam,
-        cor
-    }
+        cor,          
+        motorista: {
+            connect: { id: Number(motoristaId) }
+          }
+        }
+      });
 
-    
-});
 return response.status(200).json(carroAtualizado);
     } catch (error) {
         return response.status(200).json({message: error.message});

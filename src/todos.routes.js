@@ -238,7 +238,7 @@ todosRoutes.get("/getpets/:userId", authToken, async (request, response) => {
       const { userId } = request.params;
       const { nome, peso, comportamento, foto, sexo, raca, especia } = request.body;
   
-      const criaPet = await prisma.pet.create({
+      const criaPet = await prisma.pet.update({
         data: {
           nome,
           peso,
